@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct FlyingKxqApp: App {
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LoginView()
         }
     }
 }
+

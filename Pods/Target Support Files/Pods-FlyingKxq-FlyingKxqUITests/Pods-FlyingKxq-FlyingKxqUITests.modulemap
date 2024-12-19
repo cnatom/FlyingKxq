@@ -1,0 +1,6 @@
+framework module Pods_FlyingKxq_FlyingKxqUITests {
+  umbrella header "Pods-FlyingKxq-FlyingKxqUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -6,6 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		3280152F622728A31133BB62 /* Pods_FlyingKxq_FlyingKxqUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9336B31F208259ED03CEA6BC /* Pods_FlyingKxq_FlyingKxqUITests.framework */; };
+		5C205A3F2D11D58A00C6D218 /* SVGKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5C205A3E2D11D58A00C6D218 /* SVGKit */; };
+		5C205A412D11D58A00C6D218 /* SVGKitSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5C205A402D11D58A00C6D218 /* SVGKitSwift */; };
+		D9FB6146F780F7183BADED63 /* Pods_FlyingKxqTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09A950B1EDE36D68916237B6 /* Pods_FlyingKxqTests.framework */; };
+		EE091930CAB74FE92EBD198B /* Pods_FlyingKxq.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15256CFE81F2824D92A69885 /* Pods_FlyingKxq.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		5C4D8C0F2D104EB100999028 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -23,15 +31,50 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		5CC662AB2D108B2C00B8E49A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		09A950B1EDE36D68916237B6 /* Pods_FlyingKxqTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FlyingKxqTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		15256CFE81F2824D92A69885 /* Pods_FlyingKxq.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FlyingKxq.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		206E8910AA638E9494E65EE7 /* Pods-FlyingKxqTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlyingKxqTests.release.xcconfig"; path = "Target Support Files/Pods-FlyingKxqTests/Pods-FlyingKxqTests.release.xcconfig"; sourceTree = "<group>"; };
+		592F72A50F194A429586E79A /* Pods-FlyingKxq.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlyingKxq.release.xcconfig"; path = "Target Support Files/Pods-FlyingKxq/Pods-FlyingKxq.release.xcconfig"; sourceTree = "<group>"; };
 		5C4D8BFE2D104EB000999028 /* FlyingKxq.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlyingKxq.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C4D8C0E2D104EB100999028 /* FlyingKxqTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlyingKxqTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C4D8C182D104EB100999028 /* FlyingKxqUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlyingKxqUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C6142A3E803494ECACE70E3 /* Pods-FlyingKxq-FlyingKxqUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlyingKxq-FlyingKxqUITests.release.xcconfig"; path = "Target Support Files/Pods-FlyingKxq-FlyingKxqUITests/Pods-FlyingKxq-FlyingKxqUITests.release.xcconfig"; sourceTree = "<group>"; };
+		8C2AFD5D3E71A8D699E8A190 /* Pods-FlyingKxq-FlyingKxqUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlyingKxq-FlyingKxqUITests.debug.xcconfig"; path = "Target Support Files/Pods-FlyingKxq-FlyingKxqUITests/Pods-FlyingKxq-FlyingKxqUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		9336B31F208259ED03CEA6BC /* Pods_FlyingKxq_FlyingKxqUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FlyingKxq_FlyingKxqUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B4314238CC509CA6A2B2800E /* Pods-FlyingKxqTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlyingKxqTests.debug.xcconfig"; path = "Target Support Files/Pods-FlyingKxqTests/Pods-FlyingKxqTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F9A8A72B5426D41E44F9E548 /* Pods-FlyingKxq.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlyingKxq.debug.xcconfig"; path = "Target Support Files/Pods-FlyingKxq/Pods-FlyingKxq.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		5C4D8C682D104F9C00999028 /* Exceptions for "FlyingKxq" folder in "FlyingKxq" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Support/Info.plist,
+			);
+			target = 5C4D8BFD2D104EB000999028 /* FlyingKxq */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		5C4D8C002D104EB000999028 /* FlyingKxq */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				5C4D8C682D104F9C00999028 /* Exceptions for "FlyingKxq" folder in "FlyingKxq" target */,
+			);
 			path = FlyingKxq;
 			sourceTree = "<group>";
 		};
@@ -52,6 +95,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C205A412D11D58A00C6D218 /* SVGKitSwift in Frameworks */,
+				5C205A3F2D11D58A00C6D218 /* SVGKit in Frameworks */,
+				EE091930CAB74FE92EBD198B /* Pods_FlyingKxq.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9FB6146F780F7183BADED63 /* Pods_FlyingKxqTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,12 +113,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3280152F622728A31133BB62 /* Pods_FlyingKxq_FlyingKxqUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		02EEFA72B90439A39A3E3937 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				15256CFE81F2824D92A69885 /* Pods_FlyingKxq.framework */,
+				9336B31F208259ED03CEA6BC /* Pods_FlyingKxq_FlyingKxqUITests.framework */,
+				09A950B1EDE36D68916237B6 /* Pods_FlyingKxqTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		5C4D8BF52D104EB000999028 = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +137,8 @@
 				5C4D8C112D104EB100999028 /* FlyingKxqTests */,
 				5C4D8C1B2D104EB100999028 /* FlyingKxqUITests */,
 				5C4D8BFF2D104EB000999028 /* Products */,
+				DE01A1940F64902C79B325F3 /* Pods */,
+				02EEFA72B90439A39A3E3937 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -92,6 +152,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		DE01A1940F64902C79B325F3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F9A8A72B5426D41E44F9E548 /* Pods-FlyingKxq.debug.xcconfig */,
+				592F72A50F194A429586E79A /* Pods-FlyingKxq.release.xcconfig */,
+				8C2AFD5D3E71A8D699E8A190 /* Pods-FlyingKxq-FlyingKxqUITests.debug.xcconfig */,
+				5C6142A3E803494ECACE70E3 /* Pods-FlyingKxq-FlyingKxqUITests.release.xcconfig */,
+				B4314238CC509CA6A2B2800E /* Pods-FlyingKxqTests.debug.xcconfig */,
+				206E8910AA638E9494E65EE7 /* Pods-FlyingKxqTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -99,9 +172,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5C4D8C222D104EB100999028 /* Build configuration list for PBXNativeTarget "FlyingKxq" */;
 			buildPhases = (
+				9408DDDF2619688EB3F79236 /* [CP] Check Pods Manifest.lock */,
 				5C4D8BFA2D104EB000999028 /* Sources */,
 				5C4D8BFB2D104EB000999028 /* Frameworks */,
 				5C4D8BFC2D104EB000999028 /* Resources */,
+				5CC662AB2D108B2C00B8E49A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -111,8 +186,6 @@
 				5C4D8C002D104EB000999028 /* FlyingKxq */,
 			);
 			name = FlyingKxq;
-			packageProductDependencies = (
-			);
 			productName = FlyingKxq;
 			productReference = 5C4D8BFE2D104EB000999028 /* FlyingKxq.app */;
 			productType = "com.apple.product-type.application";
@@ -121,6 +194,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5C4D8C252D104EB100999028 /* Build configuration list for PBXNativeTarget "FlyingKxqTests" */;
 			buildPhases = (
+				E7F84099A82517E2D2599A11 /* [CP] Check Pods Manifest.lock */,
 				5C4D8C0A2D104EB100999028 /* Sources */,
 				5C4D8C0B2D104EB100999028 /* Frameworks */,
 				5C4D8C0C2D104EB100999028 /* Resources */,
@@ -134,8 +208,6 @@
 				5C4D8C112D104EB100999028 /* FlyingKxqTests */,
 			);
 			name = FlyingKxqTests;
-			packageProductDependencies = (
-			);
 			productName = FlyingKxqTests;
 			productReference = 5C4D8C0E2D104EB100999028 /* FlyingKxqTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -144,6 +216,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5C4D8C282D104EB100999028 /* Build configuration list for PBXNativeTarget "FlyingKxqUITests" */;
 			buildPhases = (
+				20E52CA83CE8E33694239D51 /* [CP] Check Pods Manifest.lock */,
 				5C4D8C142D104EB100999028 /* Sources */,
 				5C4D8C152D104EB100999028 /* Frameworks */,
 				5C4D8C162D104EB100999028 /* Resources */,
@@ -157,8 +230,6 @@
 				5C4D8C1B2D104EB100999028 /* FlyingKxqUITests */,
 			);
 			name = FlyingKxqUITests;
-			packageProductDependencies = (
-			);
 			productName = FlyingKxqUITests;
 			productReference = 5C4D8C182D104EB100999028 /* FlyingKxqUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -175,6 +246,7 @@
 				TargetAttributes = {
 					5C4D8BFD2D104EB000999028 = {
 						CreatedOnToolsVersion = 16.0;
+						LastSwiftMigration = 1600;
 					};
 					5C4D8C0D2D104EB100999028 = {
 						CreatedOnToolsVersion = 16.0;
@@ -195,6 +267,9 @@
 			);
 			mainGroup = 5C4D8BF52D104EB000999028;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				5C205A3D2D11D58A00C6D218 /* XCRemoteSwiftPackageReference "SVGKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 5C4D8BFF2D104EB000999028 /* Products */;
 			projectDirPath = "";
@@ -230,6 +305,75 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		20E52CA83CE8E33694239D51 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FlyingKxq-FlyingKxqUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9408DDDF2619688EB3F79236 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FlyingKxq-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E7F84099A82517E2D2599A11 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FlyingKxqTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5C4D8BFA2D104EB000999028 /* Sources */ = {
@@ -274,6 +418,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -304,9 +449,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/**";
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -323,6 +470,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MODULEMAP_FILE = "$(PROJECT_DIR)/Frameworks/TencentOpenAPI.framework/Headers/Modules/module.modulemap";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -337,6 +485,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -367,9 +516,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/**";
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -380,6 +531,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MODULEMAP_FILE = "$(PROJECT_DIR)/Frameworks/TencentOpenAPI.framework/Headers/Modules/module.modulemap";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -390,28 +542,44 @@
 		};
 		5C4D8C232D104EB100999028 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F9A8A72B5426D41E44F9E548 /* Pods-FlyingKxq.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = FlyingKxq/Support/FlyingKxqDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"FlyingKxq/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"FlyingKxq/Support/Preview Content\"";
 				DEVELOPMENT_TEAM = 95VT929YHJ;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				EXCLUDED_ARCHS = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FlyingKxq/Support/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "矿小圈";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.atcumt.FlyingKxq;
+				PRODUCT_BUNDLE_IDENTIFIER = com.atcumt.kxq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "FlyingKxq/Support/FlyingKxq-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -419,28 +587,43 @@
 		};
 		5C4D8C242D104EB100999028 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 592F72A50F194A429586E79A /* Pods-FlyingKxq.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = FlyingKxq/Support/FlyingKxq.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"FlyingKxq/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"FlyingKxq/Support/Preview Content\"";
 				DEVELOPMENT_TEAM = 95VT929YHJ;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				EXCLUDED_ARCHS = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FlyingKxq/Support/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "矿小圈";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.atcumt.FlyingKxq;
+				PRODUCT_BUNDLE_IDENTIFIER = com.atcumt.kxq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "FlyingKxq/Support/FlyingKxq-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -448,6 +631,7 @@
 		};
 		5C4D8C262D104EB100999028 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B4314238CC509CA6A2B2800E /* Pods-FlyingKxqTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -467,6 +651,7 @@
 		};
 		5C4D8C272D104EB100999028 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 206E8910AA638E9494E65EE7 /* Pods-FlyingKxqTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -486,6 +671,7 @@
 		};
 		5C4D8C292D104EB100999028 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8C2AFD5D3E71A8D699E8A190 /* Pods-FlyingKxq-FlyingKxqUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -503,6 +689,7 @@
 		};
 		5C4D8C2A2D104EB100999028 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5C6142A3E803494ECACE70E3 /* Pods-FlyingKxq-FlyingKxqUITests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -558,6 +745,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5C205A3D2D11D58A00C6D218 /* XCRemoteSwiftPackageReference "SVGKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SVGKit/SVGKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5C205A3E2D11D58A00C6D218 /* SVGKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5C205A3D2D11D58A00C6D218 /* XCRemoteSwiftPackageReference "SVGKit" */;
+			productName = SVGKit;
+		};
+		5C205A402D11D58A00C6D218 /* SVGKitSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5C205A3D2D11D58A00C6D218 /* XCRemoteSwiftPackageReference "SVGKit" */;
+			productName = SVGKitSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5C4D8BF62D104EB000999028 /* Project object */;
 }
