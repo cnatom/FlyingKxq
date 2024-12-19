@@ -9,8 +9,6 @@ import SwiftUI
 
 struct LoginView: View {
     @StateObject var viewModel = LoginViewModel()
-    @State private var username: String = ""
-    @State private var password: String = ""
 
     var body: some View {
         NavigationView {
@@ -46,9 +44,9 @@ struct LoginView: View {
 
     private var inputFields: some View {
         VStack(spacing: 19) {
-            InputView(text: $username, placeHolder: "用户名")
+            InputView(text: $viewModel.username, placeHolder: "用户名")
                 .padding(.horizontal, 32)
-            InputView(text: $password, textContentType: .password, placeHolder: "密码")
+            InputView(text: $viewModel.password, textContentType: .password, placeHolder: "密码")
                 .padding(.horizontal, 32)
         }
     }
@@ -60,11 +58,13 @@ struct LoginView: View {
             LoginButtonView(title: "登录") {
                 print("登录")
             }
-            LoginButtonView(title: "注册", gradientColors: [Color.clear], textColor: Color.flyMainLight, borderColor: Color.flyMainLight) {
-                print("注册")
+            NavigationLink {
+                RegisterView()
+            } label: {
+                LoginButtonView(title: "注册", gradientColors: [Color.clear], textColor: Color.flyMainLight, borderColor: Color.flyMainLight)
             }
         }
-        .frame(maxWidth: .infinity)
+        .padding(.horizontal,88)
         .padding(.top, 63)
     }
 

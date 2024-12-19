@@ -9,11 +9,11 @@ import SwiftUI
 struct InputView: View {
     @Binding var text: String
     let textContentType: UITextContentType
-    let placeHolder: LocalizedStringKey
+    let placeHolder: String
 
     init(text: Binding<String> = .constant(""),
          textContentType: UITextContentType = .username,
-         placeHolder: LocalizedStringKey = "用户名"
+         placeHolder: String = "用户名"
     ) {
         self._text = text
         self.textContentType = textContentType

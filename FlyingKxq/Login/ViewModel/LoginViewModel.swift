@@ -10,6 +10,8 @@ import Foundation
 
 class LoginViewModel: ObservableObject {
     @Published var loginState: String = "未登录"
+    @Published var username = ""
+    @Published var password = ""
 
     // MARK: - Apple 登录功能
 
