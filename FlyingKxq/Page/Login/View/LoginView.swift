@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  LoginView.swift
 //  FlyingKxq
 //
 //  Created by atom on 2024/12/16.
@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
     @StateObject var viewModel = LoginViewModel()
+    @EnvironmentObject var appState: AppStateViewModel
 
     var body: some View {
         NavigationView {
@@ -21,6 +22,15 @@ struct LoginView: View {
                 footerLinks
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            .alert(Text(viewModel.loginMessage ?? ""), isPresented: Binding(get: {
+                viewModel.loginMessage != nil
+            }, set: { _ in
+                
+            })) {
+                Button("确认") {
+                    viewModel.loginMessage = nil
+                }
+            }
         }
     }
 
@@ -56,7 +66,9 @@ struct LoginView: View {
     private var loginOptions: some View {
         VStack(alignment: .center, spacing: 19) {
             LoginButtonView(title: "登录") {
-                print("登录")
+                Task {
+                    appState.isLoggedIn = await viewModel.login()
+                }
             }
             NavigationLink {
                 RegisterView()
@@ -72,13 +84,18 @@ struct LoginView: View {
 
     private var appleSignInButton: some View {
         Button {
-            viewModel.startAppleSignIn()
+            Task {
+                let _ = await viewModel.appleLogin()
+            }
         } label: {
             ZStack {
                 RoundedRectangle(cornerRadius: 100, style: .circular)
                     .foregroundStyle(Color.flyText)
                     .frame(width: 35, height: 35)
                 Image(systemName: "apple.logo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 18)
                     .foregroundStyle(Color.flyBackground)
             }
         }

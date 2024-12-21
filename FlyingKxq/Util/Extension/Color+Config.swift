@@ -15,7 +15,6 @@ extension Color {
     static let flyMain = Color(hex: "#1EA59E")
     static let flyText = Color(dynamicLight: "#000000", dark: "#FFFFFF")
     static let flyDevider = Color(hex: "#D8D8D8")
-    
 }
 
 extension Color {

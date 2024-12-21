@@ -4,6 +4,7 @@ platform :ios, '15.6'
 target 'FlyingKxq' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
+  pod 'Alamofire'
 
   target 'FlyingKxqTests' do
     inherit! :search_paths

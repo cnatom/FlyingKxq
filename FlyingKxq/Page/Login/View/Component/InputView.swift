@@ -15,7 +15,7 @@ struct InputView: View {
          textContentType: UITextContentType = .username,
          placeHolder: String = "用户名"
     ) {
-        self._text = text
+        _text = text
         self.textContentType = textContentType
         self.placeHolder = placeHolder
     }

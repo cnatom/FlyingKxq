@@ -21,7 +21,7 @@ struct AppBar: View {
                     if let leftAction = leftButtonAction {
                         leftAction() // 如果提供了自定义的左侧动作，执行它
                     } else {
-                        dismiss.callAsFunction()
+                        dismiss()
                     }
                 }
                 Spacer()

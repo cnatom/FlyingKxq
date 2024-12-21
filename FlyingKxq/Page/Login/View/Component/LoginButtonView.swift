@@ -15,7 +15,7 @@ struct LoginButtonView: View {
     let textColor: Color // 文字色彩
     let borderColor: Color? // 边框色彩
 
-    init(title: String,
+    init(title: String = "",
          gradientColors: [Color] = [Color(hex: "#27D0C7"), Color(hex: "#25BFB7")],
          cornerRadius: CGFloat = 100,
          textColor: Color = .white,
