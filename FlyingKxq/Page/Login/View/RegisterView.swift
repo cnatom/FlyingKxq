@@ -51,18 +51,11 @@ struct RegisterView: View {
                             })
                             
                         }
+                        .disabled(viewModel.loading)
                         Spacer().frame(height: 79)
-                        Group {
-                            if viewModel.loading {
-                                ProgressView()
-                                    .progressViewStyle(CircularProgressViewStyle())
-                                    .padding()
-                            } else {
-                                LoginButtonView(title: "注册并登录") {
-                                    Task {
-                                        let _ = await viewModel.register()
-                                    }
-                                }
+                        LoginButtonView(title: "注册并登录",loading: viewModel.loading) {
+                            Task {
+                                let _ = await viewModel.register()
                             }
                         }
                         Spacer()

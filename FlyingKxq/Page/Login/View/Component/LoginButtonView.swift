@@ -14,12 +14,14 @@ struct LoginButtonView: View {
     let cornerRadius: CGFloat // 圆角大小
     let textColor: Color // 文字色彩
     let borderColor: Color? // 边框色彩
+    let loading: Bool
 
     init(title: String = "",
          gradientColors: [Color] = [Color(hex: "#27D0C7"), Color(hex: "#25BFB7")],
          cornerRadius: CGFloat = 100,
          textColor: Color = .white,
          borderColor: Color? = nil,
+         loading: Bool = false,
          action: (() -> Void)? = nil) {
         self.title = title
         self.action = action
@@ -27,35 +29,57 @@ struct LoginButtonView: View {
         self.cornerRadius = cornerRadius
         self.textColor = textColor
         self.borderColor = borderColor
+        self.loading = loading
     }
 
     var body: some View {
-        if let action = action {
-            Button(action: action, label: { buttonView })
-        } else {
-            buttonView
+        Group {
+            if let action = action {
+                Button(action: action, label: { buttonView })
+            } else {
+                buttonView
+            }
         }
+        .disabled(loading)
     }
 
     private var buttonView: some View {
-        Text(title)
-            .font(.system(size: 16, weight: .medium))
-            .foregroundStyle(textColor) // 文字颜色
-            .padding(.vertical, 12)
-            .frame(maxWidth: .infinity)
-            .background(
-                LinearGradient(colors: gradientColors, startPoint: .leading, endPoint: .trailing)
-            )
-            .clipShape(RoundedRectangle(cornerRadius: cornerRadius)) // 圆角设置
-            .overlay {
-                if let borderColor = borderColor {
-                    RoundedRectangle(cornerRadius: cornerRadius)
-                        .stroke(borderColor, lineWidth: 2)
-                }
+        ZStack(alignment:.center) {
+            Text(title)
+                .font(.system(size: 16, weight: .medium))
+                .foregroundStyle(textColor) // 文字颜色
+                .opacity(loading ? 0 : 1)
+                .animation(.easeInOut(duration: 0.1), value: loading)
+            ProgressView()
+                .progressViewStyle(.circular)
+                .tint(.white)
+                .opacity(loading ? 1 : 0)
+        }
+        .frame(maxWidth: loading ? 45 : .infinity, minHeight: 45,maxHeight: 45)
+        .background(
+            LinearGradient(colors: gradientColors, startPoint: .leading, endPoint: .trailing)
+        )
+        .clipShape(RoundedRectangle(cornerRadius: cornerRadius)) // 圆角设置
+        .overlay {
+            if let borderColor = borderColor {
+                RoundedRectangle(cornerRadius: cornerRadius)
+                    .stroke(borderColor, lineWidth: 2)
             }
+        }
+        .animation(.easeInOut, value: loading)
+    }
+}
+
+struct LoginButtonViewPreview: View {
+    @State private var loading = false
+    
+    var body: some View {
+        LoginButtonView(title: "标题标题标题标题", loading: loading) {
+            loading.toggle()
+        }
     }
 }
 
 #Preview {
-    LoginButtonView(title: "标题")
+    LoginButtonViewPreview()
 }

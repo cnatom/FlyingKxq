@@ -8,46 +8,24 @@
 import SwiftUI
 
 struct MainTabView: View {
-    @State private var selectedTab = 0
-    
+    @State private var selectedTab = 3
+
+    private let tabs: [Int: AnyView] = [
+        0: AnyView(HomeView()),
+        1: AnyView(NewsView()),
+        2: AnyView(ChatView()),
+        3: AnyView(ProfileView()),
+    ]
+
     var body: some View {
-        TabView(selection: $selectedTab) {
-            HomeView()
-                .tabItem {
-                    Label("首页", systemImage: "house")
-                }
-                .tag(0)
-            
-            ProfileView()
-                .tabItem {
-                    Label("我的", systemImage: "person")
-                }
-                .tag(1)
-            
-            SettingsView()
-                .tabItem {
-                    Label("设置", systemImage: "gear")
-                }
-                .tag(2)
+        ZStack(alignment: .bottom) {
+            tabs[selectedTab]
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            FlyNavigationBar(selectedItem: $selectedTab, leftItems: ["首页", "资讯"], rightItems: ["圈圈", "我的"]) {
+            }
         }
-    }
-}
-
-struct HomeView: View {
-    var body: some View {
-        Text("首页内容")
-    }
-}
-
-struct ProfileView: View {
-    var body: some View {
-        Text("我的内容")
-    }
-}
-
-struct SettingsView: View {
-    var body: some View {
-        Text("设置内容")
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+        .ignoresSafeArea(edges:.bottom)
     }
 }
 

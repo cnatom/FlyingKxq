@@ -18,14 +18,17 @@ struct LoginView: View {
                 inputFields
                 loginOptions
                 Spacer()
-                appleSignInButton
-                footerLinks
+                Group {
+                    appleSignInButton
+                    footerLinks
+                }
+                .modifier(HiddenAnimation(isLoading: viewModel.loginLoading))
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .alert(Text(viewModel.loginMessage ?? ""), isPresented: Binding(get: {
                 viewModel.loginMessage != nil
             }, set: { _ in
-                
+
             })) {
                 Button("确认") {
                     viewModel.loginMessage = nil
@@ -59,13 +62,14 @@ struct LoginView: View {
             InputView(text: $viewModel.password, textContentType: .password, placeHolder: "密码")
                 .padding(.horizontal, 32)
         }
+        .disabled(viewModel.loginLoading)
     }
 
     // MARK: - Login/Registration Options
 
     private var loginOptions: some View {
         VStack(alignment: .center, spacing: 19) {
-            LoginButtonView(title: "登录") {
+            LoginButtonView(title: "登录",loading: viewModel.loginLoading) {
                 Task {
                     appState.isLoggedIn = await viewModel.login()
                 }
@@ -75,8 +79,10 @@ struct LoginView: View {
             } label: {
                 LoginButtonView(title: "注册", gradientColors: [Color.clear], textColor: Color.flyMainLight, borderColor: Color.flyMainLight)
             }
+            .modifier(HiddenAnimation(isLoading: viewModel.loginLoading))
+            .disabled(viewModel.loginLoading)
         }
-        .padding(.horizontal,88)
+        .padding(.horizontal, 88)
         .padding(.top, 63)
     }
 
@@ -118,6 +124,18 @@ struct LoginView: View {
     }
 }
 
+struct HiddenAnimation: ViewModifier {
+    let isLoading: Bool
+
+    func body(content: Content) -> some View {
+        content
+            .opacity(isLoading ? 0 : 1)
+            .scaleEffect(isLoading ? 0.8 : 1, anchor: .top)
+            .animation(.easeInOut, value: isLoading)
+    }
+}
+
 #Preview {
     LoginView()
+        .environmentObject(AppStateViewModel())
 }

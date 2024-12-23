@@ -8,23 +8,31 @@
 import AuthenticationServices
 import Foundation
 
-class LoginViewModel: ObservableObject {
+class LoginViewModel: NSObject, ObservableObject {
     @Published var username = ""
     @Published var password = ""
     @Published var loginMessage: String? = nil
+    @Published var loginLoading = false
 
     var loginResponse: LoginResponse?
 
     // MARK: 登录
 
     func login() async -> Bool {
+        // 测试
+        if EnvironmentUtil.isTestEnvironment() {
+            updateUI { self.loginLoading = true }
+            await Task.sleep(2)
+            updateUI { self.loginLoading = false }
+            return true
+        }
+        // 校验
         if let validMessage = isValid() {
-            DispatchQueue.main.async {
-                self.loginMessage = validMessage
-            }
+            updateUI { self.loginMessage = validMessage }
             return false
         }
-
+        updateUI { self.loginLoading = true }
+        // 请求
         let api = LoginAPI()
         api.parameters = [
             "username": username,
@@ -32,19 +40,26 @@ class LoginViewModel: ObservableObject {
         ]
 
         do {
-            // 异步请求登录 API
             let response: LoginResponse = try await NetworkManager.shared.request(api: api, responseType: LoginResponse.self)
             loginResponse = response
             if response.code == 200 {
-                updateUI { self.loginMessage = "登录成功！" }
+                updateUI {
+                    self.loginMessage = "登录成功！"
+                    self.loginLoading = false
+                }
                 return true
             } else {
-                updateUI { self.loginMessage = response.msg }
+                updateUI {
+                    self.loginMessage = response.msg
+                    self.loginLoading = false
+                }
                 return false
             }
         } catch {
-            // 处理错误
-            updateUI { self.loginMessage = "登录失败：\(error.localizedDescription)" }
+            updateUI {
+                self.loginMessage = "登录失败：\(error.localizedDescription)"
+                self.loginLoading = false
+            }
             return false
         }
     }
@@ -52,6 +67,7 @@ class LoginViewModel: ObservableObject {
     // MARK: Apple登录
 
     func appleLogin() async -> Bool {
+        // 用户授权
         var authorizationCodeString: String?
         do {
             let result = try await AppleSignInUtil.shared.startAppleSignIn()
@@ -66,6 +82,7 @@ class LoginViewModel: ObservableObject {
             return false
         }
 
+        // 服务器校验
         let api = AppleLoginAPI()
         api.parameters["appleAuthorizationCode"] = code
 

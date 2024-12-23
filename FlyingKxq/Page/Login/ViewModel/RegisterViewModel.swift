@@ -69,11 +69,23 @@ class RegisterViewModel: ObservableObject {
     // MARK: 注册请求
 
     func register() async -> Bool {
-        if let validationErrorMessage = isValid() {
-            updateUI { self.alertText = validationErrorMessage }
+        // 测试
+        if EnvironmentUtil.isTestEnvironment() {
+            updateUI { self.loading = true }
+            await Task.sleep(2)
+            updateUI { self.loading = false }
             return false
         }
+        // 校验
         loading = true
+        if let validationErrorMessage = isValid() {
+            updateUI {
+                self.alertText = validationErrorMessage
+                self.loading = false
+            }
+            return false
+        }
+        // 请求
         let api = RegisterAPI()
         api.parameters = [
             "username": username,

@@ -19,6 +19,6 @@ protocol APIConfiguration {
 // 默认实现
 extension APIConfiguration {
     var baseURL: String {
-        return "http://s0.nsloop.com:18092"
+        return "119.45.93.228:1005"
     }
 }
