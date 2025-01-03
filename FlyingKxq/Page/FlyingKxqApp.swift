@@ -9,25 +9,27 @@ import SwiftUI
 
 @main
 struct FlyingKxqApp: App {
-    @StateObject var appState = AppStateViewModel()
+    @StateObject var appState = AuthManager.shared
 
     var body: some Scene {
         WindowGroup {
-            ZStack(alignment: .center) {
-                if appState.isLoggedIn {
-                    MainTabView()
-                        .environmentObject(appState)
-                        .transition(.offset(x: 0, y: 40).combined(with: .opacity))
-                        .onAppear {
-                            appState.checkLoginStatus()
-                        }
+                ZStack(alignment: .center) {
+                    if appState.isLoggedIn {
+                        MainTabView()
+                            .environmentObject(appState)
+                            .transition(.offset(x: 0, y: 40).combined(with: .opacity))
+                            .onAppear {
+                                Task {
+                                    await appState.refreshTokenIfNeed()
+                                }
+                            }
 
-                } else {
-                    LoginView()
-                        .environmentObject(appState)
-                        .transition(.offset(x: 0, y: 40).combined(with: .opacity))
+                    } else {
+                        LoginView()
+                            .environmentObject(appState)
+                            .transition(.offset(x: 0, y: 40).combined(with: .opacity))
+                    }
                 }
-            }
             .animation(.easeInOut, value: appState.isLoggedIn)
         }
     }

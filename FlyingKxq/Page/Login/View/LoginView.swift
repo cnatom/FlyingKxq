@@ -9,36 +9,40 @@ import SwiftUI
 
 struct LoginView: View {
     @StateObject var viewModel = LoginViewModel()
-    @EnvironmentObject var appState: AppStateViewModel
+    @EnvironmentObject var appState: AuthManager
 
     var body: some View {
-        NavigationView {
-            VStack(alignment: .center, spacing: 0) {
-                headerView
-                inputFields
-                loginOptions
-                Spacer()
-                Group {
-                    appleSignInButton
-                    footerLinks
-                }
-                .modifier(HiddenAnimation(isLoading: viewModel.loginLoading))
+        VStack(alignment: .center, spacing: 0) {
+            headerView
+            inputFields
+            loginOptions
+            Spacer()
+            Group {
+                appleSignInButton
+                footerLinks
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            .alert(Text(viewModel.loginMessage ?? ""), isPresented: Binding(get: {
-                viewModel.loginMessage != nil
-            }, set: { _ in
+            .modifier(HiddenAnimation(isLoading: viewModel.loginLoading))
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .alert(Text(viewModel.loginMessage ?? ""), isPresented: Binding(get: {
+            viewModel.loginMessage != nil
+        }, set: { _ in
 
-            })) {
-                Button("确认") {
-                    viewModel.loginMessage = nil
-                }
+        })) {
+            Button("确认") {
+                viewModel.loginMessage = nil
             }
         }
     }
 
-    // MARK: - Header Section
+    func appleLogin() {
+        Task {
+            self.appState.isLoggedIn = await viewModel.appleLogin()
+        }
+    }
+}
 
+extension LoginView {
     private var headerView: some View {
         VStack(alignment: .leading) {
             Text("Hi 欢迎使用矿小圈")
@@ -53,8 +57,6 @@ struct LoginView: View {
         .padding(.vertical, 127)
     }
 
-    // MARK: - Input Fields
-
     private var inputFields: some View {
         VStack(spacing: 19) {
             InputView(text: $viewModel.username, placeHolder: "用户名")
@@ -65,11 +67,9 @@ struct LoginView: View {
         .disabled(viewModel.loginLoading)
     }
 
-    // MARK: - Login/Registration Options
-
     private var loginOptions: some View {
         VStack(alignment: .center, spacing: 19) {
-            LoginButtonView(title: "登录",loading: viewModel.loginLoading) {
+            LoginButtonView(title: "登录", loading: viewModel.loginLoading) {
                 Task {
                     appState.isLoggedIn = await viewModel.login()
                 }
@@ -86,13 +86,9 @@ struct LoginView: View {
         .padding(.top, 63)
     }
 
-    // MARK: - Apple SignIn Button
-
     private var appleSignInButton: some View {
         Button {
-            Task {
-                let _ = await viewModel.appleLogin()
-            }
+            self.appleLogin()
         } label: {
             ZStack {
                 RoundedRectangle(cornerRadius: 100, style: .circular)
@@ -107,8 +103,6 @@ struct LoginView: View {
         }
         .padding(.bottom, 32)
     }
-
-    // MARK: - Footer Links
 
     private var footerLinks: some View {
         HStack {
@@ -137,5 +131,5 @@ struct HiddenAnimation: ViewModifier {
 
 #Preview {
     LoginView()
-        .environmentObject(AppStateViewModel())
+        .environmentObject(AuthManager.shared)
 }

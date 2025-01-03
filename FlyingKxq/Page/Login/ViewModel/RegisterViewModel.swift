@@ -18,14 +18,13 @@ class RegisterViewModel: ObservableObject {
     @Published var alertText: String?
     @Published var loading = false
 
-    var unifiedAuthResponse: UnifiedAuthResponse?
-    var registerResponse: LoginResponse?
+    var unifiedAuthResponse: UnifiedAuthAPIResponse?
+    var appleAuthorizationCodeString: String?
     var schoolCookie = HTTPCookie()
-    var appleSignInModel: AppleSignInModel?
 
     // MARK: 统一认证绑定
 
-    func cookieHandler(url: URL?, cookies: [HTTPCookie]) -> Bool {
+    func cookieHandler(url: URL?, cookies: [HTTPCookie]) async -> Bool {
         guard let url = url, url.absoluteString.contains("portal.cumt.edu.cn"),
               let cookie = cookies.first(where: { $0.name.contains("SESS9595") }) else {
             return false
@@ -36,13 +35,18 @@ class RegisterViewModel: ObservableObject {
 
         let api = UnifiedAuthAPI()
         api.headers["Cookie"] = "\(cookie.name)=\(cookie.value)"
-        NetworkManager.shared.request(api: api, responseType: UnifiedAuthResponse.self) { [weak self] result in
-            self?.handleAuthResponse(result)
+        do {
+            let res = try await NetworkManager.shared.request(api: api)
+            unifiedAuthResponse = res
+            updateUI { self.schoolCertificationStatus = res.code == 200 ? "认证成功 ✅" : (res.msg ?? "统一认证失败") }
+            return res.code == 200
+        } catch {
+            updateUI { self.schoolCertificationStatus = "认证失败,请检查网络连接" }
+            return false
         }
-        return true
     }
 
-    private func handleAuthResponse(_ result: Result<UnifiedAuthResponse, AFError>) {
+    private func handleAuthResponse(_ result: Result<UnifiedAuthAPIResponse, AFError>) {
         switch result {
         case let .success(response):
             unifiedAuthResponse = response
@@ -58,7 +62,8 @@ class RegisterViewModel: ObservableObject {
     func appleAccountBind() {
         Task {
             do {
-                appleSignInModel = try await AppleSignInUtil.shared.startAppleSignIn()
+                let appleSignInModel = try await AppleSignInUtil.shared.startAppleSignIn()
+                appleAuthorizationCodeString = appleSignInModel.authorizationCodeString
                 updateUI { self.appleBindStatus = "获取Apple ID成功 ✅" }
             } catch {
                 updateUI { self.appleBindStatus = "绑定失败，请重试" }
@@ -72,12 +77,12 @@ class RegisterViewModel: ObservableObject {
         // 测试
         if EnvironmentUtil.isTestEnvironment() {
             updateUI { self.loading = true }
-            await Task.sleep(2)
+            await Task.sleep(1.0)
             updateUI { self.loading = false }
             return false
         }
         // 校验
-        loading = true
+        updateUI { self.loading = true }
         if let validationErrorMessage = isValid() {
             updateUI {
                 self.alertText = validationErrorMessage
@@ -91,19 +96,29 @@ class RegisterViewModel: ObservableObject {
             "username": username,
             "password": password,
             "unifiedAuthToken": unifiedAuthResponse?.data?.token,
-            "appleAuthorizationCode": appleSignInModel?.authorizationCodeString,
+            "appleAuthorizationCode": appleAuthorizationCodeString,
         ].compactMapValues { $0 }
 
         do {
-            let response = try await NetworkManager.shared.request(api: api, responseType: LoginResponse.self)
-            updateUI { self.alertText = response.code == 200 ? "注册成功！" : (response.msg ?? "注册失败，请检查网络连接") }
-            loading = false
-            return response.code == 200
+            let response: RegisterAPIResponse = try await NetworkManager.shared.request(api: api)
+            if response.code == 200 {
+                if let token = response.data?.accessToken {
+                    FlyKeyChain.shared.save(key: .token, value: token)
+                }
+                if let refreshToken = response.data?.refreshToken {
+                    FlyKeyChain.shared.save(key: .refreshToken, value: refreshToken)
+                }
+                return true
+            } else {
+                updateUI {
+                    self.alertText = response.msg ?? "注册失败，请检查网络连接"
+                    self.loading = false
+                }
+                return false
+            }
         } catch {
             updateUI { self.alertText = "网络请求失败,请检查网络连接" }
-            print("\(error.localizedDescription)")
-            loading = false
-
+            updateUI { self.loading = false }
             return false
         }
     }

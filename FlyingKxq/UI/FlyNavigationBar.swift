@@ -48,9 +48,9 @@ struct FlyNavigationBar: View {
         }
         .animation(.easeInOut, value: selectedItem)
         .padding(.horizontal, 16)
-        .padding(.bottom,getSafeAreaInsetsBottom())
+        .padding(.bottom,self.safeAreaInsets.bottom)
         .background{
-            VisualEffectBlur(effect: .systemChromeMaterial)
+            FlyBlurView(effect: .systemChromeMaterial)
         }
     }
 
@@ -58,14 +58,6 @@ struct FlyNavigationBar: View {
         Text(text)
             .font(.system(size: selected ? 18 : 16, weight: .medium))
             .foregroundStyle(selected ? Color.flyText : Color.flyTextGray)
-    }
-    
-    private func getSafeAreaInsetsBottom() -> CGFloat {
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let window = windowScene.windows.first else {
-            return 0
-        }
-        return window.safeAreaInsets.bottom
     }
 }
 
@@ -87,17 +79,7 @@ struct FlyNavigationBarPreview: View {
         }
     }
 }
-struct VisualEffectBlur: UIViewRepresentable {
-    let effect: UIBlurEffect.Style
-    
-    func makeUIView(context: Context) -> UIVisualEffectView {
-        UIVisualEffectView(effect: UIBlurEffect(style: effect))
-    }
-    
-    func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
-        uiView.effect = UIBlurEffect(style: effect)
-    }
-}
+
 
 #Preview {
     FlyNavigationBarPreview()

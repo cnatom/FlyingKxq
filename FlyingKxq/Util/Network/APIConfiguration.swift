@@ -9,16 +9,33 @@ import Alamofire
 import Foundation
 
 protocol APIConfiguration {
+    associatedtype ResponseType: Codable
     var baseURL: String { get }
     var path: String { get }
     var method: HTTPMethod { get }
     var headers: [String: String] { get set }
     var parameters: [String: Any] { get set }
+    var response: ResponseType? { get set }
+    static var type: ResponseType.Type { get }
 }
 
-// 默认实现
 extension APIConfiguration {
     var baseURL: String {
-        return "119.45.93.228:1005"
+        return "http://119.45.93.228:8080"
+    }
+
+    var injectToken: Bool {
+        get {
+            headers["Authorization"] != nil
+        }
+        set {
+            if newValue, let token = FlyKeyChain.shared.read(key: .token) {
+                headers["Authorization"] = "Bearer \(token)"
+            }
+        }
+    }
+
+    static var type: ResponseType.Type {
+        return ResponseType.self
     }
 }

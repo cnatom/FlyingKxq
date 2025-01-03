@@ -20,15 +20,17 @@ struct SchoolCertificationView: View {
     var body: some View {
         FlyScaffold {
             VStack {
-                AppBar(title: "认证")
+                FlyAppBar(title: "认证")
                 Text("在这个页面登录即可认证成功")
                     .font(.system(size: 14, weight: .regular))
                     .foregroundStyle(Color.flyTextGray)
                     .padding(.vertical, 7)
                 FlyWebView(url: URL(string: "https://authserver.cumt.edu.cn/authserver/login")!) { url, cookies in
-                    let canDismiss = viewModel.cookieHandler(url: url, cookies: cookies)
-                    if canDismiss {
-                        dismiss()
+                    Task {
+                        let canDismiss = await viewModel.cookieHandler(url: url, cookies: cookies)
+                        if canDismiss {
+                            dismiss()
+                        }
                     }
                 }
             }

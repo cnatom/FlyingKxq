@@ -14,15 +14,13 @@ class LoginViewModel: NSObject, ObservableObject {
     @Published var loginMessage: String? = nil
     @Published var loginLoading = false
 
-    var loginResponse: LoginResponse?
-
     // MARK: 登录
 
     func login() async -> Bool {
         // 测试
         if EnvironmentUtil.isTestEnvironment() {
             updateUI { self.loginLoading = true }
-            await Task.sleep(2)
+            await Task.sleep(1.0)
             updateUI { self.loginLoading = false }
             return true
         }
@@ -40,11 +38,12 @@ class LoginViewModel: NSObject, ObservableObject {
         ]
 
         do {
-            let response: LoginResponse = try await NetworkManager.shared.request(api: api, responseType: LoginResponse.self)
-            loginResponse = response
+            let response: LoginAPIResponse = try await NetworkManager.shared.request(api: api)
             if response.code == 200 {
+                // 存储token
+                saveToken(accessToken: response.data?.accessToken, refreshToken: response.data?.refreshToken)
+                // 登录成功
                 updateUI {
-                    self.loginMessage = "登录成功！"
                     self.loginLoading = false
                 }
                 return true
@@ -87,13 +86,13 @@ class LoginViewModel: NSObject, ObservableObject {
         api.parameters["appleAuthorizationCode"] = code
 
         do {
-            let response: LoginResponse = try await NetworkManager.shared.request(api: api, responseType: LoginResponse.self)
-            loginResponse = response
+            let response: AppleLoginAPIResponse = try await NetworkManager.shared.request(api: api)
             if response.code == 200 {
-                updateUI { self.loginMessage = "登录成功！" }
+                // 登录成功
+                saveToken(accessToken: response.data?.accessToken, refreshToken: response.data?.refreshToken)
                 return true
             } else {
-                loginMessage = response.msg
+                updateUI { self.loginMessage = response.msg }
                 return false
             }
         } catch {
@@ -109,5 +108,15 @@ class LoginViewModel: NSObject, ObservableObject {
         guard username != "" else { return "请输入用户名" }
         guard password != "" else { return "请输入密码" }
         return nil
+    }
+    // MARK: 存储Token
+    
+    private func saveToken(accessToken: String?,refreshToken: String?) {
+        if let token = accessToken{
+            FlyKeyChain.shared.save(key: .token, value: token)
+        }
+        if let refreshToken = refreshToken{
+            FlyKeyChain.shared.save(key: .refreshToken, value: refreshToken)
+        }
     }
 }

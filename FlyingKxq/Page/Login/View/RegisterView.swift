@@ -9,11 +9,12 @@ import SwiftUI
 
 struct RegisterView: View {
     @StateObject var viewModel = RegisterViewModel()
+    @EnvironmentObject var appState: AuthManager
 
     var body: some View {
         FlyScaffold {
             VStack(alignment: .center, spacing: 0, content: {
-                AppBar(title: "注册")
+                FlyAppBar(title: "注册")
                 ScrollView {
                     Group {
                         Spacer().frame(height: 52)
@@ -55,7 +56,7 @@ struct RegisterView: View {
                         Spacer().frame(height: 79)
                         LoginButtonView(title: "注册并登录",loading: viewModel.loading) {
                             Task {
-                                let _ = await viewModel.register()
+                                appState.isLoggedIn = await viewModel.register()
                             }
                         }
                         Spacer()

@@ -9,7 +9,15 @@ import SwiftUI
 
 struct ChatView: View {
     var body: some View {
-        Text("ChatView")
+        ScrollView{
+            VStack {
+                Text("ChatView")
+                ForEach(0..<1000) { value in
+                    Text("\(value)")
+                }
+            }
+            .frame(maxWidth: .infinity)
+        }
     }
 }
 
