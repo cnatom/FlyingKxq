@@ -64,7 +64,7 @@ struct TextEditerView: View {
         Button(action: {
             text = text.trimmingCharacters(in: .whitespaces)
             onSave(text)
-//            dismiss()
+            dismiss()
         }, label: {
             Text("保存")
                 .font(.system(size: 16, weight: .medium))
