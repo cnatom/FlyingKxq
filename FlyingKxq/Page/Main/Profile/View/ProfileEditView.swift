@@ -35,8 +35,8 @@ struct ProfileEditView: View {
                     VStack(spacing: 0) {
                         avaterView
                             .padding(.vertical, 30)
-                        ForEach(data,id: \.title) { data in
-                            rowContent(title: data.title, content: data.content, contentView: data.contentView,destination: data.destination)
+                        ForEach(data, id: \.title) { data in
+                            rowContent(title: data.title, content: data.content, contentView: data.contentView, destination: data.destination)
                         }
                         FlyDeviderView()
                     }

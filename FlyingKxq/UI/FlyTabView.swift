@@ -177,17 +177,19 @@ struct FlyTabViewPreview: View {
         VStack(spacing: 0) {
             Color.flyBackground.frame(height: 30)
             ProfileHeaderView(
-                avaterUrl: "https://qlogo2.store.qq.com/qzone1004275481/1004275481/100?1727804452",
-                name: "卖女孩的小火柴",
-                username: "username",
-                level: 6,
-                bio: "我是个性签名",
-                fanNumber: 10,
-                followNumber: 231,
-                likeNumber: 98,
-                tags: [
-                    ProfileTag(title: "❤️", content: "动态宽度"),
-                ]
+                model: .init(
+                    avatarUrl: "https://qlogo2.store.qq.com/qzone1004275481/1004275481/100?1727804452",
+                    name: "卖女孩的小火柴",
+                    username: "username",
+                    bio: "我是个性签名",
+                    level: 6,
+                    fanNumber: 10,
+                    followNumber: 231,
+                    likeNumber: 98,
+                    tags: [
+                        ProfileTag(title: "❤️", content: "动态宽度"),
+                    ]
+                )
             )
         }
     }

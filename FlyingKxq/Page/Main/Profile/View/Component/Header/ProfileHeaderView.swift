@@ -9,28 +9,12 @@ import SDWebImageSwiftUI
 import SwiftUI
 
 struct ProfileHeaderView<Content: View>: View {
-    let imageUrl: String
-    let name: String
-    let username: String
-    let level: Int
-    let bio: String
-    let fanNumber: Int
-    let followNumber: Int
-    let likeNumber: Int
-    let tags: [ProfileTag]
+    let model: ProfileHeaderModel
     let trailingView: Content
     @State var showAddButton = false
 
-    init(avaterUrl: String, name: String, username: String, level: Int, bio: String, fanNumber: Int, followNumber: Int, likeNumber: Int, tags: [ProfileTag], @ViewBuilder trailingView: () -> Content = { EmptyView() }) {
-        imageUrl = avaterUrl
-        self.name = name
-        self.username = username
-        self.level = level
-        self.bio = bio
-        self.fanNumber = fanNumber
-        self.followNumber = followNumber
-        self.likeNumber = likeNumber
-        self.tags = tags
+    init(model: ProfileHeaderModel, @ViewBuilder trailingView: () -> Content = { EmptyView() }) {
+        self.model = model
         self.trailingView = trailingView()
     }
 
@@ -45,11 +29,11 @@ struct ProfileHeaderView<Content: View>: View {
 
                 // 昵称 @用户名
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(name)
+                    Text(model.name)
                         .font(.system(size: 16, weight: .medium))
                         .foregroundStyle(Color.flyText)
                         .lineLimit(1)
-                    Text("@\(username)")
+                    Text("@\(model.username)")
                         .font(.system(size: 12, weight: .regular))
                         .foregroundStyle(Color.flyTextGray)
                 }
@@ -60,21 +44,21 @@ struct ProfileHeaderView<Content: View>: View {
 
             VStack(alignment: .leading, spacing: 12) {
                 // 个签
-                ProfileTagView(title: "个签", content: bio != "" ? bio : "TA还未设置个性签名")
+                ProfileTagView(title: "个签", content: model.bio != "" ? model.bio : "TA还未设置个性签名")
                 HStack(spacing: 10) {
                     // 等级
                     levelView
                     // 状态
-                    if tags.count > 1 {
+                    if model.tags.count > 1 {
                         scrollableTagsView
                     } else {
                         nonScrollableTagsView()
                     }
                 }
                 HStack {
-                    ProfileTagView(title: "粉丝", content: "\(fanNumber)")
-                    ProfileTagView(title: "关注", content: "\(followNumber)")
-                    ProfileTagView(title: "获赞", content: "\(likeNumber)")
+                    ProfileTagView(title: "粉丝", content: "\(model.fanNumber)")
+                    ProfileTagView(title: "关注", content: "\(model.followNumber)")
+                    ProfileTagView(title: "获赞", content: "\(model.likeNumber)")
                 }
             }
         }
@@ -87,7 +71,7 @@ struct ProfileHeaderView<Content: View>: View {
             .clipShape(.circle)
             .frame(width: 55, height: 55)
 
-        return AsyncImage(url: URL(string: imageUrl), transaction: Transaction(animation: .easeInOut)) { phase in
+        return AsyncImage(url: URL(string: model.avatarUrl), transaction: Transaction(animation: .easeInOut)) { phase in
             switch phase {
             case .empty:
                 placeHolder
@@ -110,7 +94,7 @@ struct ProfileHeaderView<Content: View>: View {
 
     func nonScrollableTagsView() -> some View {
         return HStack(spacing: 12) {
-            ForEach(tags, id: \.title) { result in
+            ForEach(model.tags, id: \.title) { result in
                 ProfileTagView(title: result.title, content: result.content)
                     .onAppear {
                         withAnimation {
@@ -130,7 +114,7 @@ struct ProfileHeaderView<Content: View>: View {
             HStack(spacing: 12) {
                 ProfileAddTagButton(showText: false) {
                 }
-                ForEach(tags, id: \.title) { result in
+                ForEach(model.tags, id: \.title) { result in
                     ProfileTagView(title: result.title, content: result.content)
                 }
             }
@@ -138,7 +122,7 @@ struct ProfileHeaderView<Content: View>: View {
     }
 
     var levelView: some View {
-        Text("lv.\(level)")
+        Text("lv.\(model.level)")
             .font(.system(size: 12, weight: .semibold))
             .foregroundStyle(Color.flyMain)
             .padding(.horizontal, 12)
@@ -193,40 +177,32 @@ struct ProfileHeaderViewPreview: View {
                 }
             }
             ProfileHeaderView(
-                avaterUrl: imageUrl,
-                name: "卖女孩的小火柴",
-                username: "username",
-                level: 6,
-                bio: "我是个性签名",
-                fanNumber: 10,
-                followNumber: 231,
-                likeNumber: 98,
-                tags: tags
+                model: .init(
+                    avatarUrl: imageUrl,
+                    name: "卖女孩的小火柴",
+                    username: "username",
+                    bio: "",
+                    level: 5,
+                    fanNumber: 10,
+                    followNumber: 231,
+                    likeNumber: 98,
+                    tags: tags
+                )
             )
             ProfileHeaderView(
-                avaterUrl: imageUrl,
-                name: "卖女孩的小火柴",
-                username: "username",
-                level: 6,
-                bio:"",
-                fanNumber: 10,
-                followNumber: 231,
-                likeNumber: 98,
-                tags: [
-                    ProfileTag(title: "❤️", content: "动态宽度"),
-                ]
-            )
-            ProfileHeaderView(
-                avaterUrl: "",
-                name: "卖女孩的小火柴",
-                username: "username",
-                level: 6,
-                bio: "我是个性签名",
-                fanNumber: 10,
-                followNumber: 231,
-                likeNumber: 98,
-                tags: [
-                ]
+                model: .init(
+                    avatarUrl: imageUrl,
+                    name: "卖女孩的小火柴",
+                    username: "username",
+                    bio: "",
+                    level: 5,
+                    fanNumber: 10,
+                    followNumber: 231,
+                    likeNumber: 98,
+                    tags: [
+                        ProfileTag(title: "❤️", content: "动态宽度"),
+                    ]
+                )
             )
         }
     }

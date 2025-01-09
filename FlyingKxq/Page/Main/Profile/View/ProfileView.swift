@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ProfileView: View {
     @State var selectedIndex: CGFloat = 0.0
-    @StateObject var headerViewModel = ProfileHeaderViewModel()
+    @StateObject var viewModel = ProfileHeaderViewModel()
     let items = ["消息", "帖子", "评论", "收藏"]
 
     var body: some View {
@@ -21,7 +21,7 @@ struct ProfileView: View {
                 items: items,
                 headerView: header,
                 selectedIndexCallBack: { _ in
-                    
+
                 }) {
                     [
                         ProfileTabContent.comment,
@@ -41,35 +41,27 @@ struct ProfileView: View {
                 action: [FlyIconButton(iconName: "ellipsis", iconColor: Color.flyTextGray)]
             )
             ProfileHeaderView(
-                avaterUrl: headerViewModel.avatarUrl,
-                name: headerViewModel.name,
-                username: headerViewModel.username,
-                level: headerViewModel.level,
-                bio: headerViewModel.bio,
-                fanNumber: headerViewModel.fanNumber,
-                followNumber: headerViewModel.followNumber,
-                likeNumber: headerViewModel.likeNumber,
-                tags: headerViewModel.tags,
+                model: viewModel.model,
                 trailingView: {
                     NavigationLink {
                         ProfileEditView([
                             .init(title: "昵称",
-                                  content: headerViewModel.name,
+                                  content: viewModel.model.name,
                                   destination: AnyView(
                                       TextEditerView(
-                                          text: headerViewModel.name,
+                                          text: viewModel.model.name,
                                           appBarTitle: "编辑昵称",
                                           maxLength: 36
-                                      ) { headerViewModel.name = $0 }
+                                      ) { viewModel.model.name = $0 }
                                   )
                             ),
                             .init(title: "签名",
-                                  content: headerViewModel.bio,
+                                  content: viewModel.model.bio,
                                   destination: AnyView(
-                                    TextEditerView(
-                                        text: headerViewModel.bio,
-                                        appBarTitle: "编辑签名"
-                                    ) { headerViewModel.bio = $0 }
+                                      TextEditerView(
+                                          text: viewModel.model.bio,
+                                          appBarTitle: "编辑签名"
+                                      ) { viewModel.model.bio = $0 }
                                   )),
                             .init(title: "性别", content: "男"),
                             .init(title: "状态", contentView: AnyView(HStack(spacing: 10) {
@@ -79,10 +71,10 @@ struct ProfileView: View {
                                 ProfileTagView(title: "😉", content: "开心")
                             })),
                         ])
-                        .onAppear{
+                        .onAppear {
                             print("出现: ProfileEditView")
                         }
-                        .onDisappear{
+                        .onDisappear {
                             print("消失: ProfileEditView")
                         }
                     } label: {
@@ -92,7 +84,7 @@ struct ProfileView: View {
             )
             .onAppear {
                 Task {
-                    let _ = await headerViewModel.getData()
+                    let _ = await viewModel.getData()
                 }
             }
         }
