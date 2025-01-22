@@ -16,7 +16,7 @@ extension Color {
     static let flyText = Color(dynamicLight: "#000000", dark: "#FFFFFF")
     static let flyDevider = Color(dynamicLight: "#F7F7F8", dark: "#1C1C1E")
     static let flyGray = Color(hex: "#B2B2B2")
-    static let flyLightGray = Color(hex: "#DDDDDD")
+    static let flyLightGray = Color(dynamicLight: "#DDDDDD", dark: "#1C1C1E")
 
 }
 

@@ -44,39 +44,8 @@ struct ProfileView: View {
                 model: viewModel.model,
                 trailingView: {
                     NavigationLink {
-                        ProfileEditView([
-                            .init(title: "昵称",
-                                  content: viewModel.model.name,
-                                  destination: AnyView(
-                                      TextEditerView(
-                                          text: viewModel.model.name,
-                                          appBarTitle: "编辑昵称",
-                                          maxLength: 36
-                                      ) { viewModel.model.name = $0 }
-                                  )
-                            ),
-                            .init(title: "签名",
-                                  content: viewModel.model.bio,
-                                  destination: AnyView(
-                                      TextEditerView(
-                                          text: viewModel.model.bio,
-                                          appBarTitle: "编辑签名"
-                                      ) { viewModel.model.bio = $0 }
-                                  )),
-                            .init(title: "性别", content: "男"),
-                            .init(title: "状态", contentView: AnyView(HStack(spacing: 10) {
-                                ProfileTagView(title: "😉", content: "开心")
-                                ProfileTagView(title: "😉", content: "开心")
-                                ProfileTagView(title: "😉", content: "开心")
-                                ProfileTagView(title: "😉", content: "开心")
-                            })),
-                        ])
-                        .onAppear {
-                            print("出现: ProfileEditView")
-                        }
-                        .onDisappear {
-                            print("消失: ProfileEditView")
-                        }
+                        ProfileEditView()
+                            .environmentObject(viewModel)
                     } label: {
                         ProfileChipButton(title: "编辑资料", primary: false)
                     }

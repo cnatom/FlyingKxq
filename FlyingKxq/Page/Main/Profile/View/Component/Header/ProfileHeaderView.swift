@@ -94,8 +94,8 @@ struct ProfileHeaderView<Content: View>: View {
 
     func nonScrollableTagsView() -> some View {
         return HStack(spacing: 12) {
-            ForEach(model.tags, id: \.title) { result in
-                ProfileTagView(title: result.title, content: result.content)
+            ForEach(model.tags, id: \.emoji) { result in
+                ProfileTagView(title: result.emoji, content: result.name)
                     .onAppear {
                         withAnimation {
                             self.showAddButton = true
@@ -114,8 +114,8 @@ struct ProfileHeaderView<Content: View>: View {
             HStack(spacing: 12) {
                 ProfileAddTagButton(showText: false) {
                 }
-                ForEach(model.tags, id: \.title) { result in
-                    ProfileTagView(title: result.title, content: result.content)
+                ForEach(model.tags, id: \.emoji) { result in
+                    ProfileTagView(title: result.emoji, content: result.name)
                 }
             }
         }
@@ -139,11 +139,11 @@ struct ProfileHeaderTagView: View {
 
     var body: some View {
         HStack {
-            Text(tag.title)
+            Text(tag.emoji)
                 .font(.system(size: 14))
                 .lineLimit(1)
                 .foregroundStyle(Color.white)
-            Text(tag.content)
+            Text(tag.name)
                 .font(.system(size: 14))
                 .lineLimit(1)
                 .foregroundStyle(Color.white)
@@ -154,21 +154,16 @@ struct ProfileHeaderTagView: View {
     }
 }
 
-struct ProfileTag: Equatable {
-    let title: String
-    let content: String
-}
-
 struct ProfileHeaderViewPreview: View {
-    @State var tags = [ProfileTag(title: "❤️", content: "状态"),
-                       ProfileTag(title: "❤️", content: "状态"),
-                       ProfileTag(title: "❤️", content: "状态状态")]
+    @State var tags = [ProfileTag(emoji: "❤️", name: "状态"),
+                       ProfileTag(emoji: "❤️", name: "状态"),
+                       ProfileTag(emoji: "❤️", name: "状态状态")]
     let imageUrl = "https://qlogo2.store.qq.com/qzone/1004275481/1004275481/100"
     var body: some View {
         VStack(spacing: 30) {
             HStack {
                 Button("添加") {
-                    self.tags.append(ProfileTag(title: "❤️", content: "状态New"))
+                    self.tags.append(ProfileTag(emoji: "❤️", name: "状态New"))
                 }
                 Button("删除") {
                     if tags.count > 0 {
@@ -200,7 +195,7 @@ struct ProfileHeaderViewPreview: View {
                     followNumber: 231,
                     likeNumber: 98,
                     tags: [
-                        ProfileTag(title: "❤️", content: "动态宽度"),
+                        ProfileTag(emoji: "❤️", name: "动态宽度"),
                     ]
                 )
             )

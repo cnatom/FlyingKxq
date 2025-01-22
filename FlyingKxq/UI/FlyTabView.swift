@@ -187,7 +187,7 @@ struct FlyTabViewPreview: View {
                     followNumber: 231,
                     likeNumber: 98,
                     tags: [
-                        ProfileTag(title: "❤️", content: "动态宽度"),
+                        ProfileTag(emoji: "❤️", name: "动态宽度"),
                     ]
                 )
             )

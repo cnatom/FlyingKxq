@@ -21,10 +21,63 @@ struct ProfileEditRowData {
 }
 
 struct ProfileEditView: View {
-    let data: [ProfileEditRowData]
+    @EnvironmentObject var viewModel: ProfileHeaderViewModel
+    @State var showToast: Bool = false
+    @State var toastText = ""
 
-    init(_ data: [ProfileEditRowData]) {
-        self.data = data
+    var data: [ProfileEditRowData] { [
+        .init(title: "昵称",
+              content: viewModel.model.name,
+              destination: AnyView(
+                  TextEditerView(
+                      text: viewModel.model.name,
+                      appBarTitle: "编辑昵称",
+                      maxLength: 36
+                  ) {
+                      showToast(text: "修改昵称成功！")
+                      viewModel.model.name = $0
+                  }
+              )
+        ),
+        .init(title: "签名",
+              content: viewModel.model.bio,
+              destination: AnyView(
+                  TextEditerView(
+                      text: viewModel.model.bio,
+                      appBarTitle: "编辑签名"
+                  ) {
+                      showToast(text: "修改签名成功！")
+                      viewModel.model.bio = $0
+                  }
+              )),
+        .init(title:
+            "性别",
+            content: viewModel.model.gender,
+            destination: AnyView(
+                EnumEditerView(
+                    title: "修改性别",
+                    onSave: {
+                        showToast(text: "修改性别成功！")
+                        viewModel.model.gender = $0 == "保密" ? "" : $0
+                    },
+                    current: EnumEditerItemString(viewModel.model.gender),
+                    enums: ["男", "女", "保密"]
+                )
+            )
+        ),
+        .init(title: "状态",
+              contentView: AnyView(HStack(spacing: 10) {
+                  ForEach(viewModel.model.tags) { tag in
+                      ProfileTagView(title: tag.emoji, content: tag.name)
+                  }
+              }),
+              destination: AnyView(TagEditerView().environmentObject(viewModel))
+        ),
+    ] }
+
+    func showToast(text: String) {
+        showToast = true
+        toastText = text
     }
 
     var body: some View {
@@ -42,8 +95,8 @@ struct ProfileEditView: View {
                     }
                 }
             }
-            .navigationBarBackButtonHidden()
         }
+        .flyToast(show: $showToast, text: toastText, type: .success, duration: .seconds(1))
     }
 
     @ViewBuilder
@@ -69,12 +122,13 @@ struct ProfileEditView: View {
             Spacer()
             Image(systemName: "chevron.right")
                 .resizable()
-                .tint(Color.flyGray)
+                .foregroundStyle(Color.flyGray)
                 .scaledToFit()
                 .frame(height: 11)
         }
         .padding(.vertical, 12)
         .padding(.horizontal, 18)
+
         VStack(spacing: 0) {
             FlyDeviderView()
             if let destination = destination {
@@ -123,31 +177,6 @@ struct ProfileEditView: View {
 }
 
 #Preview {
-    ProfileEditView([
-        .init(title: "昵称", content: "卖女孩的小火柴"),
-        .init(title: "签名", content: "我是签名我是签名我是签名我是签名我是签名我是签名"),
-        .init(title: "性别", content: "男"),
-        .init(title: "状态", contentView: AnyView(HStack(spacing: 10) {
-            ProfileTagView(title: "😉", content: "开心")
-            ProfileTagView(title: "😉", content: "开心")
-            ProfileTagView(title: "😉", content: "开心")
-            ProfileTagView(title: "😉", content: "开心")
-        })),
-
-//        rowContent(title: "昵称", content: "卖女孩的小火柴")
-//        rowContent(title: "签名", content: "我是签名我是签名我是签名我是签名我是签名我是签名")
-//        rowContent(title: "性别", content: "男")
-//        rowContent(title: "状态") {
-//            HStack(spacing: 10) {
-//                ProfileTagView(title: "😉", content: "开心")
-//                ProfileTagView(title: "😉", content: "开心")
-//                ProfileTagView(title: "😉", content: "开心")
-//                ProfileTagView(title: "😉", content: "开心")
-//            }
-//        }
-//        rowContent(title: "家乡", content: "江苏徐州")
-//        rowContent(title: "专业", content: "计算机科学与技术")
-//        rowContent(title: "年级", content: "")
-
-    ])
+    ProfileEditView()
+        .environmentObject(ProfileHeaderViewModel())
 }

@@ -8,32 +8,23 @@
 import SwiftUI
 
 extension View {
-    func flyNormalDialog<Content: View>(
-        show: Binding<Bool>,
-        title: String,
-        actionText: String = "确定",
-        action: @escaping () -> Void,
-        @ViewBuilder view: () -> Content
-    ) -> some View {
-        modifier(FlyNormalDialogViewModifier(show: show, view: view(), title: title, actionText: actionText, action: action))
-    }
-
     func flyBaseDialog<Content: View>(
-        show: Binding<Bool>,
-        @ViewBuilder view: () -> Content
+        isPresented: Binding<Bool>,
+        onDismiss: @escaping () -> Void = {},
+        @ViewBuilder content: () -> Content
     ) -> some View {
-        modifier(FlyBaseDialogViewModifier(show: show, view: view()))
+        modifier(FlyBaseDialogViewModifier(isPresented: isPresented, onDismiss: onDismiss, content: content()))
     }
 }
 
 struct FlyDialogExampleView: View {
-    @State var showNormal = true
     @State var showBase = false
+    @State var showNestedDialog = false
     var body: some View {
         VStack {
             Text("Hello World")
             Button("toggle") {
-                showNormal.toggle()
+                showBase.toggle()
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -41,51 +32,20 @@ struct FlyDialogExampleView: View {
             RoundedRectangle(cornerRadius: 8)
                 .foregroundStyle(Color.flySecondaryBackground)
         }
-        .flyNormalDialog(show: $showNormal, title: "修改状态") {
-            print("Hello")
-        } view: {
-            Text("Hello")
-                .frame(height: 200)
-                .frame(maxWidth: .infinity)
-        }
-    }
-}
-
-struct FlyNormalDialogViewModifier<ChildView: View>: ViewModifier {
-    @Binding var show: Bool
-    let view: ChildView
-    let title: String
-    let actionText: String
-    let action: () -> Void
-
-    func body(content: Content) -> some View {
-        content
-            .flyBaseDialog(show: $show) {
-                VStack {
-                    HStack {
-                        Button {
-                            show = false
-                        } label: {
-                            Text("取消")
-                                .foregroundStyle(Color.flyText)
-                        }
-                        Spacer()
-                        Text(title)
-                            .foregroundStyle(Color.flyText)
-                        Spacer()
-                        Button {
-                            action()
-                        } label: {
-                            Text(actionText)
-                                .foregroundStyle(Color.flyMain)
-                        }
-                    }
-                    .font(.system(size: 16, weight: .medium))
-                    .padding(.vertical, 16)
-                    .padding(.horizontal, 24)
-                    view
+        .flyBaseDialog(isPresented: $showBase, onDismiss: {
+            showBase = false
+        }, content: {
+            VStack {
+                FlyDialogHeaderView(show: $showBase, title: "标题", actionText: "确认") {
+                    print("点击了确认")
                 }
+                Button("显示子视图") {
+                    showNestedDialog.toggle()
+                }
+                .frame(height: 500)
             }
+
+        })
     }
 }
 
@@ -93,23 +53,25 @@ struct FlyBaseDialogViewModifier<ChildView: View>: ViewModifier {
     @State var offsetY = 0.0
     @Binding var show: Bool
     let view: ChildView
-    @State var maxOffsetY: CGFloat = 0.0
+    @State var maxOffsetY: CGFloat = 100.0
+    let onDismiss: () -> Void
 
     var scale: CGFloat {
         // offsetY:                             0 -> maxOffsetY
         // offsetY / maxOffsetY:                0 -> 1
         // 0.2 * (offsetY / maxOffsetY)         0.0 -> 0.2
         // 0.8 + 0.2 * (offsetY / maxOffsetY)   0.8 -> 1.0
-        show ? min(1.0, 0.8 + 0.2 * (offsetY / maxOffsetY)) : 1.0
+        show ? max(0.5, min(1.0, 0.8 + 0.2 * (offsetY / maxOffsetY))) : 1.0
     }
 
     var backOpacity: CGFloat {
         min(0.6, 0.3 * (1 - offsetY / maxOffsetY))
     }
 
-    init(show: Binding<Bool>, view: ChildView) {
-        _show = show
-        self.view = view
+    init(isPresented: Binding<Bool>, onDismiss: @escaping () -> Void, content: ChildView) {
+        _show = isPresented
+        view = content
+        self.onDismiss = onDismiss
     }
 
     func body(content: Content) -> some View {
@@ -123,6 +85,7 @@ struct FlyBaseDialogViewModifier<ChildView: View>: ViewModifier {
                         .contentShape(Rectangle())
                         .onTapGesture {
                             show = false
+                            onDismiss()
                         }
                 }
             }
@@ -170,6 +133,53 @@ struct FlyBaseDialogViewModifier<ChildView: View>: ViewModifier {
             }
             .ignoresSafeArea(.all, edges: .bottom)
             .animation(.easeInOut, value: show)
+            .onChange(of: scale) { newValue in
+                print(newValue.description)
+            }
+    }
+}
+
+struct FlyDialogHeaderView: View {
+    @Binding var show: Bool
+    let title: String
+    let cancelText: String
+    let cancelTextColor: Color
+    let cancel: () -> Void
+    let actionText: String
+    let action: () -> Void
+    init(show: Binding<Bool>, title: String, cancelText: String = "取消", cancel: @escaping () -> Void = {},cancelTextColor: Color = Color.flyText, actionText: String, action: @escaping () -> Void) {
+        self._show = show
+        self.title = title
+        self.cancelText = cancelText
+        self.cancelTextColor = cancelTextColor
+        self.cancel = cancel
+        self.actionText = actionText
+        self.action = action
+    }
+
+    var body: some View {
+        HStack {
+            Button {
+                show = false
+                cancel()
+            } label: {
+                Text(cancelText)
+                    .foregroundStyle(cancelTextColor)
+            }
+            Spacer()
+            Text(title)
+                .foregroundStyle(Color.flyText)
+            Spacer()
+            Button {
+                action()
+            } label: {
+                Text(actionText)
+                    .foregroundStyle(Color.flyMain)
+            }
+        }
+        .font(.system(size: 16, weight: .medium))
+        .padding(.vertical, 16)
+        .padding(.horizontal, 24)
     }
 }
 

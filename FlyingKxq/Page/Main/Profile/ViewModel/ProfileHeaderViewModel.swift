@@ -13,6 +13,7 @@ class ProfileHeaderViewModel: ObservableObject {
     @Published var model = ProfileHeaderModel()
 
     func getData() async -> Bool {
+        if model.username != "" { return false }
         if loading { return false }
         loading = true
         var api = UserInfoAPI()
@@ -30,12 +31,20 @@ class ProfileHeaderViewModel: ObservableObject {
                         self.model.fanNumber = data.followersCount ?? 0
                         self.model.followNumber = data.followingCount ?? 0
                         self.model.likeNumber = data.likeReceivedCount ?? 0
+                        switch data.gender {
+                        case 1:
+                            self.model.gender = "男"
+                        case 0:
+                            self.model.gender = "女"
+                        default:
+                            self.model.gender = ""
+                        }
                         self.model.bio = data.bio ?? ""
                         if let status = data.status {
                             for s in status {
                                 if let first = s.first, first.isEmoji {
                                     let content = String(s.dropFirst()) // 获取除第一个字符外的内容
-                                    self.model.tags.append(ProfileTag(title: String(first), content: content))
+                                    self.model.tags.append(ProfileTag(emoji: String(first), name: content))
                                 }
                             }
                         }

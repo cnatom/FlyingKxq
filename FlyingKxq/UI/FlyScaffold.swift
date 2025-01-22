@@ -17,5 +17,6 @@ struct FlyScaffold<Content: View>: View {
     var body: some View {
         content
             .navigationBarBackButtonHidden(true)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 }

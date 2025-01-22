@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3280152F622728A31133BB62 /* Pods_FlyingKxq_FlyingKxqUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9336B31F208259ED03CEA6BC /* Pods_FlyingKxq_FlyingKxqUITests.framework */; };
+		5CD9E5D22D415F3F00F4295A /* MCEmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 5CD9E5D12D415F3F00F4295A /* MCEmojiPicker */; };
 		D9FB6146F780F7183BADED63 /* Pods_FlyingKxqTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09A950B1EDE36D68916237B6 /* Pods_FlyingKxqTests.framework */; };
 		EE091930CAB74FE92EBD198B /* Pods_FlyingKxq.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15256CFE81F2824D92A69885 /* Pods_FlyingKxq.framework */; };
 /* End PBXBuildFile section */
@@ -103,6 +104,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE091930CAB74FE92EBD198B /* Pods_FlyingKxq.framework in Frameworks */,
+				5CD9E5D22D415F3F00F4295A /* MCEmojiPicker in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,6 +276,9 @@
 			);
 			mainGroup = 5C4D8BF52D104EB000999028;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				5CD9E5D02D415F3F00F4295A /* XCRemoteSwiftPackageReference "MCEmojiPicker" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 5C4D8BFF2D104EB000999028 /* Products */;
 			projectDirPath = "";
@@ -783,6 +788,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5CD9E5D02D415F3F00F4295A /* XCRemoteSwiftPackageReference "MCEmojiPicker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/izyumkin/MCEmojiPicker";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5CD9E5D12D415F3F00F4295A /* MCEmojiPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5CD9E5D02D415F3F00F4295A /* XCRemoteSwiftPackageReference "MCEmojiPicker" */;
+			productName = MCEmojiPicker;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5C4D8BF62D104EB000999028 /* Project object */;
 }

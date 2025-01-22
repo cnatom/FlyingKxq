@@ -8,6 +8,13 @@
 import SwiftUI
 
 extension View {
+    func flyToast(text: String?) -> some View {
+        return modifier(FlyToastViewModifier(show: Binding(get: {
+            text != nil
+        }, set: { _ in
+        }), text: text ?? "", type: .success, alignment: .top, duration: .seconds(2)))
+    }
+
     func flyToast(
         show: Binding<Bool>,
         text: String,
