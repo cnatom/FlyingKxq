@@ -11,6 +11,15 @@ struct ToastModel {
     var type: FlyToastViewType
 }
 
+struct ToastLoadingModel {
+    var text: String = "加载成功"
+    var loadingText: String = "加载中"
+    var success: Bool = false
+    var type: FlyToastViewType {
+        success ? .success : .error
+    }
+}
+
 class ToastViewModel: ObservableObject {
     @Published var model = ToastModel(text: "", type: .normal)
     @Published var isShowing: Bool = false
@@ -25,26 +34,16 @@ class ToastViewModel: ObservableObject {
         self.model.type = model.type
         isShowing = true
     }
-}
-
-struct ToastLoadingModel {
-    var text: String = "加载成功"
-    var loadingText: String = "加载中"
-    var success: Bool = false
-    var type: FlyToastViewType {
-        success ? .success : .error
-    }
-}
-
-class ToastLoadingViewModel: ObservableObject {
-    @Published var model = ToastLoadingModel()
+    
+    /// loading
+    @Published var loadingModel = ToastLoadingModel()
     @Published var isShowLoading: Bool = false
-
+    
     func start(_ loadingText: String = "加载中") {
-        model.loadingText = loadingText
+        loadingModel.loadingText = loadingText
         isShowLoading = true
     }
-
+    
     func end(_ text: String, success: Bool) {
         isShowLoading = false
         model.text = text
@@ -52,7 +51,9 @@ class ToastLoadingViewModel: ObservableObject {
     
     func end(_ model: ToastLoadingModel) {
         isShowLoading = false
-        self.model.success = model.success
-        self.model.text = model.text
+        self.loadingModel.success = model.success
+        self.loadingModel.text = model.text
     }
+    
 }
+

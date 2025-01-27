@@ -11,7 +11,6 @@ import SwiftUI
 struct FlyingKxqApp: App {
     @StateObject var appState = AuthManager.shared
     @StateObject var toastViewModel = ToastViewModel()
-    @StateObject var toastLoadingViewModel = ToastLoadingViewModel()
     var body: some Scene {
         WindowGroup {
             ZStack(alignment: .center) {
@@ -31,9 +30,8 @@ struct FlyingKxqApp: App {
             }
             .environmentObject(appState)
             .environmentObject(toastViewModel)
-            .environmentObject(toastLoadingViewModel)
             .flyToast(show: $toastViewModel.isShowing, text: toastViewModel.model.text, type: toastViewModel.model.type, duration: DispatchTimeInterval.seconds(1))
-            .flyToastLoading(loading: $toastLoadingViewModel.isShowLoading, loadSuccess: toastLoadingViewModel.model.success, successText: toastLoadingViewModel.model.text, errorText: toastLoadingViewModel.model.text)
+            .flyToastLoading(loading: $toastViewModel.isShowLoading, loadSuccess: toastViewModel.loadingModel.success, successText: toastViewModel.loadingModel.text, errorText: toastViewModel.loadingModel.text)
             .animation(.easeInOut, value: appState.isLoggedIn)
         }
     }

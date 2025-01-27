@@ -23,13 +23,12 @@ struct ProfileEditRowData {
 struct ProfileEditView: View {
     @EnvironmentObject var viewModel: ProfileHeaderViewModel
     @EnvironmentObject var toast: ToastViewModel
-    @EnvironmentObject var toastLoader: ToastLoadingViewModel
 
     func editProfile(_ value: String, type: UserInfoEditType) {
         Task {
-            toastLoader.start("修改中")
+            toast.start("修改中")
             let result = await viewModel.editProfile(type: type, value: value)
-            toastLoader.end(result)
+            toast.end(result)
         }
     }
 
