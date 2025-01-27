@@ -8,7 +8,7 @@
 import Foundation
 
 extension Task where Success == Never, Failure == Never {
-    static func sleep(_ second: CGFloat) async {
+    static func flySleep(_ second: CGFloat) async {
         do {
             let nanoseconds = UInt64(second * 1_000_000_000)
             try await Self.sleep(nanoseconds: nanoseconds)

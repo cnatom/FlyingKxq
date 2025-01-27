@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TagEditerView: View {
     @EnvironmentObject var viewModel: ProfileHeaderViewModel
-
+    @EnvironmentObject var toast: ToastViewModel
     @State var showAddDialog = false
     @State var showEditDialog = false
     @State var selectedTagIndex = 0
@@ -50,25 +50,32 @@ struct TagEditerView: View {
             }
         }
         .flyBaseDialog(isPresented: $showAddDialog) {
-            TagEditerDialogView(show: $showAddDialog) { newTag in
+            // 添加状态
+            TagEditerDialogView(show: $showAddDialog, title: "添加状态") { newTag in
                 viewModel.model.tags.append(newTag)
+                toast.showToast("添加成功", type: .success)
             }
             .frame(height: self.screenSize.height * 0.8, alignment: .top)
         }
         .flyBaseDialog(isPresented: $showEditDialog) {
-            TagEditerDialogView(
-                show: $showEditDialog,
-                initialTag: viewModel.model.tags[selectedTagIndex],
-                onDelete: { delTag in
-                    viewModel.model.tags.removeAll { tag in
-                        tag.id == delTag.id
+            if !viewModel.model.tags.isEmpty {
+                TagEditerDialogView(
+                    show: $showEditDialog,
+                    initialTag: viewModel.model.tags[selectedTagIndex],
+                    onDelete: { delTag in
+                        toast.showToast("删除成功", type: .success)
+                        viewModel.model.tags.removeAll { tag in
+                            tag.id == delTag.id
+                        }
+                        selectedTagIndex = 0
+                    },
+                    onConfirm: { newTag in
+                        viewModel.model.tags[selectedTagIndex] = newTag
+                        toast.showToast("修改成功", type: .success)
                     }
-                },
-                onConfirm: { newTag in
-                    viewModel.model.tags[selectedTagIndex] = newTag
-                }
-            )
-            .frame(height: self.screenSize.height * 0.8, alignment: .top)
+                )
+                .frame(height: self.screenSize.height * 0.8, alignment: .top)
+            }
         }
     }
 
@@ -100,7 +107,7 @@ struct TagEditerView: View {
         HStack(spacing: 0) {
             Group {
                 Text("\(tag.emoji)")
-                Text("\(tag.name)")
+                Text("\(tag.text)")
             }
             .font(.system(size: 16, weight: .medium))
             .foregroundStyle(Color.flyText)

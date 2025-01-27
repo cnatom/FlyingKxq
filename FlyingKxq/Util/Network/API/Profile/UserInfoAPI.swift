@@ -32,14 +32,19 @@ class UserInfoAPI: APIConfiguration, MockableAPI {
                 avatar: "https://qlogo2.store.qq.com/qzone/1004275481/1004275481/100",
                 banner: nil,
                 bio: "卖女孩的小火柴",
+                hometown: "山东潍坊",
+                major: "",
+                grade: "",
                 gender: 0,
                 level: 4,
+                experience: 300,
                 followersCount: 321,
                 followingCount: 123,
                 likeReceivedCount: 412,
-//                status: []
-//                status: ["❤️恋爱中"]
-                status: ["❤️恋爱中", "😃开心"]
+                status: [
+                    UserInfoAPIResponseStatus(emoji: "❤️", text: "恋爱中", endTime: "2026-10-10T00:00:00"),
+                    UserInfoAPIResponseStatus(emoji: "😃", text: "开心", endTime: "2025-10-10T00:00:00"),
+                ]
             )
         )
     }
@@ -54,12 +59,23 @@ struct UserInfoAPIResponse: Codable {
 struct UserInfoAPIResponseDataClass: Codable {
     let userID, username, nickname, avatar: String?
     let banner, bio: String?
-    let gender, level, followersCount, followingCount: Int?
+    let hometown, major, grade: String?
+    let gender, level, experience, followersCount, followingCount: Int?
     let likeReceivedCount: Int?
-    let status: [String]?
+    let status: [UserInfoAPIResponseStatus]?
 
     enum CodingKeys: String, CodingKey {
         case userID = "userId"
-        case username, nickname, avatar, banner, bio, gender, level, followersCount, followingCount, likeReceivedCount, status
+        case username, nickname, avatar, hometown, major, grade, banner, bio, gender, level, followersCount, followingCount, experience, likeReceivedCount, status = "statuses"
+    }
+}
+
+struct UserInfoAPIResponseStatus: Codable {
+    let emoji: String?
+    let text: String?
+    let endTime: String?
+
+    enum CodingKeys: String, CodingKey {
+        case emoji, text, endTime
     }
 }

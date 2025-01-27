@@ -5,11 +5,10 @@
 //  Created by atom on 2025/1/6.
 //
 
-import Foundation
 import Alamofire
+import Foundation
 
 class RealNetworkManager: NetworkManagerProtocol {
-    
     func request<T: APIConfiguration>(
         api: T
     ) async throws -> T.ResponseType {
@@ -17,7 +16,7 @@ class RealNetworkManager: NetworkManagerProtocol {
             await AuthManager.shared.refreshTokenIfNeed()
         }
         let url = api.baseURL + api.path
-        let encoding: ParameterEncoding = api.method == .get ? URLEncoding.default : JSONEncoding.default
+        let encoding: ParameterEncoding = api.method == .post ? JSONEncoding.default : URLEncoding.default
         let response = try await AF.request(
             url,
             method: api.method,
@@ -25,8 +24,7 @@ class RealNetworkManager: NetworkManagerProtocol {
             encoding: encoding,
             headers: HTTPHeaders(api.headers)
         ).serializingDecodable(T.type).value
-        
+
         return response
     }
-    
 }

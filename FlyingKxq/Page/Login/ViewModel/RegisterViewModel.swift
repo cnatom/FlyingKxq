@@ -77,7 +77,7 @@ class RegisterViewModel: ObservableObject {
         // 测试
         if EnvironmentUtil.isTestEnvironment() {
             updateUI { self.loading = true }
-            await Task.sleep(1.0)
+            await Task.flySleep(1.0)
             updateUI { self.loading = false }
             return false
         }

@@ -26,4 +26,10 @@ extension Date {
             return "至" + dateFormatter.string(from: self)
         }
     }
+    
+    static func fromISOString(_ dateString: String) -> Date? {
+        let isoFormatter = ISO8601DateFormatter()
+        isoFormatter.formatOptions = [.withFullDate, .withTime, .withColonSeparatorInTime]
+        return isoFormatter.date(from: dateString)
+    }
 }

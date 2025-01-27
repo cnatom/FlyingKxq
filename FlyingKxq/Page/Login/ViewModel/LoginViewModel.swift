@@ -20,7 +20,7 @@ class LoginViewModel: NSObject, ObservableObject {
         // 测试
         if EnvironmentUtil.isTestEnvironment() {
             updateUI { self.loginLoading = true }
-            await Task.sleep(1.0)
+            await Task.flySleep(1.0)
             updateUI { self.loginLoading = false }
             return true
         }

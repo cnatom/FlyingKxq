@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 
 class NetworkManager {
-    static let shared: any NetworkManagerProtocol = MockNetworkManager()
+    static let shared: any NetworkManagerProtocol = RealNetworkManager()
     
     private init() {}
 }

@@ -12,6 +12,9 @@ struct ProfileHeaderModel {
     var name: String = ""
     var username: String = ""
     var bio: String = ""
+    var hometown: String = ""
+    var major: String = ""
+    var grade: String = ""
     var gender: String = ""
     var level: Int = 0
     var fanNumber: Int = 0
@@ -20,10 +23,10 @@ struct ProfileHeaderModel {
     var tags: [ProfileTag] = []
 }
 
-struct ProfileTag: Equatable,Identifiable {
+struct ProfileTag: Equatable, Identifiable {
     var id = UUID()
     var emoji: String
-    var name: String
+    var text: String
     var endTime: Date?
     var endTimeString: String {
         endTime == nil ? "" : endTime!.formatCountdownString()

@@ -22,8 +22,16 @@ struct ProfileEditRowData {
 
 struct ProfileEditView: View {
     @EnvironmentObject var viewModel: ProfileHeaderViewModel
-    @State var showToast: Bool = false
-    @State var toastText = ""
+    @EnvironmentObject var toast: ToastViewModel
+    @EnvironmentObject var toastLoader: ToastLoadingViewModel
+
+    func editProfile(_ value: String, type: UserInfoEditType) {
+        Task {
+            toastLoader.start("修改中")
+            let result = await viewModel.editProfile(type: type, value: value)
+            toastLoader.end(result)
+        }
+    }
 
     var data: [ProfileEditRowData] { [
         .init(title: "昵称",
@@ -33,9 +41,8 @@ struct ProfileEditView: View {
                       text: viewModel.model.name,
                       appBarTitle: "编辑昵称",
                       maxLength: 36
-                  ) {
-                      showToast(text: "修改昵称成功！")
-                      viewModel.model.name = $0
+                  ) { value in
+                      editProfile(value, type: .nickname)
                   }
               )
         ),
@@ -45,9 +52,8 @@ struct ProfileEditView: View {
                   TextEditerView(
                       text: viewModel.model.bio,
                       appBarTitle: "编辑签名"
-                  ) {
-                      showToast(text: "修改签名成功！")
-                      viewModel.model.bio = $0
+                  ) { value in
+                      editProfile(value, type: .bio)
                   }
               )),
         .init(title:
@@ -56,9 +62,8 @@ struct ProfileEditView: View {
             destination: AnyView(
                 EnumEditerView(
                     title: "修改性别",
-                    onSave: {
-                        showToast(text: "修改性别成功！")
-                        viewModel.model.gender = $0 == "保密" ? "" : $0
+                    onSave: { value in
+                        editProfile(value, type: .gender)
                     },
                     current: EnumEditerItemString(viewModel.model.gender),
                     enums: ["男", "女", "保密"]
@@ -68,17 +73,42 @@ struct ProfileEditView: View {
         .init(title: "状态",
               contentView: AnyView(HStack(spacing: 10) {
                   ForEach(viewModel.model.tags) { tag in
-                      ProfileTagView(title: tag.emoji, content: tag.name)
+                      ProfileTagView(title: tag.emoji, content: tag.text)
                   }
               }),
               destination: AnyView(TagEditerView().environmentObject(viewModel))
         ),
+        .init(title: "家乡",
+              content: viewModel.model.hometown,
+              destination: AnyView(
+                  TextEditerView(
+                      text: viewModel.model.hometown,
+                      appBarTitle: "编辑家乡"
+                  ) { value in
+                      editProfile(value, type: .hometown)
+                  }
+              )),
+        .init(title: "专业",
+              content: viewModel.model.major,
+              destination: AnyView(
+                  TextEditerView(
+                      text: viewModel.model.major,
+                      appBarTitle: "编辑专业"
+                  ) { value in
+                      editProfile(value, type: .major)
+                  }
+              )),
+        .init(title: "年级",
+              content: viewModel.model.grade,
+              destination: AnyView(
+                  TextEditerView(
+                      text: viewModel.model.grade,
+                      appBarTitle: "编辑年级"
+                  ) { value in
+                      editProfile(value, type: .grade)
+                  }
+              )),
     ] }
-
-    func showToast(text: String) {
-        showToast = true
-        toastText = text
-    }
 
     var body: some View {
         FlyScaffold {
@@ -96,7 +126,6 @@ struct ProfileEditView: View {
                 }
             }
         }
-        .flyToast(show: $showToast, text: toastText, type: .success, duration: .seconds(1))
     }
 
     @ViewBuilder

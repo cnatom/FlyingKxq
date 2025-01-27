@@ -10,7 +10,7 @@ class MockNetworkManager: NetworkManagerProtocol {
     func request<T: APIConfiguration>(api: T) async throws -> T.ResponseType where T: APIConfiguration {
         if let mockableAPI = api as? (any MockableAPI),
            let mockData = mockableAPI.mockData as? T.ResponseType {
-            await Task.sleep(0.3)
+            await Task.flySleep(1)
             return mockData
         }
         throw AFError.responseSerializationFailed(reason: .inputDataNilOrZeroLength)

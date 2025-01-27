@@ -9,66 +9,69 @@ import MCEmojiPicker
 import SwiftUI
 
 struct TagEditerDialogView: View {
+    @EnvironmentObject var toast: ToastViewModel
+
     @Binding var show: Bool
     let onConfirm: (ProfileTag) -> Void
     let initialTag: ProfileTag
     let onDelete: ((ProfileTag) -> Void)?
+    let title: String
 
     @State var emoji: String = ""
     @State var tagName: String = ""
     @State var showEmojiPicker: Bool = false
     @State var showDatePicker: Bool = false
-    @State var endTime: Date?
-    @State var selectedDate = Date()
+    @State var endTime: Date
+    @State var tempTime = Date()
 
-    init(show: Binding<Bool>, initialTag: ProfileTag = ProfileTag(emoji: "", name: ""), onDelete: ((ProfileTag) -> Void)? = nil, onConfirm: @escaping (ProfileTag) -> Void) {
+    init(show: Binding<Bool>,title: String = "修改状态", initialTag: ProfileTag = ProfileTag(emoji: "", text: ""), onDelete: ((ProfileTag) -> Void)? = nil, onConfirm: @escaping (ProfileTag) -> Void) {
         _show = show
         self.onConfirm = onConfirm
         self.initialTag = initialTag
         self.onDelete = onDelete
+        endTime = initialTag.endTime ?? Calendar.current.date(byAdding: .day, value: 1, to: Date()) ?? Date()
+        self.title = title
     }
 
     func confirm() {
         if isValid() {
-            onConfirm(ProfileTag(emoji: emoji, name: tagName, endTime: endTime))
+            onConfirm(ProfileTag(emoji: emoji, text: tagName, endTime: endTime))
             show = false
         }
     }
 
     func isValid() -> Bool {
-        /// endTime
-        if let endTime = endTime {
-            if endTime < Date() {
-                print("必须为未来的时间")
-                return false
-            }
-        } else {
-            endTime = Calendar.current.date(byAdding: .day, value: 2, to: Date())
-        }
         /// emoji
         if emoji.isEmpty {
-            print("emoji为空")
+            toast.showToast("emoji为空", type: .warning)
+
             return false
         }
         if emoji.count != 1 {
-            print("未选择Emoji")
+            toast.showToast("未选择Emoji", type: .warning)
+
             return false
         }
         if !emoji.first!.isEmoji {
-            print("请输入正确的emoji")
+            toast.showToast("请输入正确的emoji", type: .warning)
             return false
         }
         /// tagName
         if tagName.count > 10 {
-            print("状态名超过10个字符")
+            toast.showToast("状态名最多10个字符", type: .warning)
             return false
         }
 
         if tagName.isEmpty {
-            print("状态名为空")
+            toast.showToast("状态名为空", type: .warning)
+
             return false
         }
-
+        /// endTime
+        if endTime < Date() {
+            toast.showToast("必须为未来的时间", type: .warning)
+            return false
+        }
         return true
     }
 
@@ -76,7 +79,7 @@ struct TagEditerDialogView: View {
         VStack(spacing: 0) {
             FlyDialogHeaderView(
                 show: $show,
-                title: "修改状态",
+                title: title,
                 cancelText: onDelete == nil ? "取消" : "删除",
                 cancel: {
                     onDelete?(initialTag)
@@ -99,8 +102,7 @@ struct TagEditerDialogView: View {
             .padding(12)
             .onAppear {
                 emoji = initialTag.emoji
-                tagName = initialTag.name
-                selectedDate = initialTag.endTime ?? Date()
+                tagName = initialTag.text
             }
         }
     }
@@ -110,10 +112,9 @@ struct TagEditerDialogView: View {
         Button {
             withAnimation(.none) {
                 showDatePicker.toggle()
-                selectedDate = Date()
             }
         } label: {
-            FlyTextField(placeHolderText: "结束时间（默认24小时之后）", text: .constant(endTime == nil ? "" : endTime!.formatCountdownString()))
+            FlyTextField(placeHolderText: "结束时间（默认24小时之后）", text: .constant(endTime.formatCountdownString()))
                 .multilineTextAlignment(.leading)
                 .disabled(true)
         }
@@ -135,9 +136,10 @@ struct TagEditerDialogView: View {
         VStack {
             FlyDialogHeaderView(show: $showDatePicker, title: "选择结束时间", actionText: "确定") {
                 showDatePicker = false
-                endTime = selectedDate
+                endTime = tempTime
+                toast.showToast("结束时间已修改", type: .success)
             }
-            DatePicker(selection: $selectedDate, in: dateRange, displayedComponents: [.date, .hourAndMinute]) {}
+            DatePicker(selection: $tempTime, in: dateRange, displayedComponents: [.date, .hourAndMinute]) {}
                 .datePickerStyle(.graphical)
             Spacer()
         }

@@ -21,7 +21,8 @@ protocol APIConfiguration {
 
 extension APIConfiguration {
     var baseURL: String {
-        return "https://kxq.wotemo.com"
+        return "http://119.45.93.228:8080"
+//        return "https://kxq.wotemo.com"
     }
 
     var injectToken: Bool {
