@@ -31,6 +31,9 @@ struct FlyCachedImageView<ImageView: View, PlaceholderView: View>: View {
         VStack {
             if let uiImage = image {
                 content(Image(uiImage: uiImage))
+                    .onChange(of: self.url) { _ in
+                        image = nil
+                    }
             } else {
                 placeholder()
                     .onAppear {
@@ -40,7 +43,7 @@ struct FlyCachedImageView<ImageView: View, PlaceholderView: View>: View {
                     }
             }
         }
-//        .animation(.easeInOut, value: image)
+        .animation(.easeInOut, value: image)
     }
 
     // Downloads if the image is not cached already
