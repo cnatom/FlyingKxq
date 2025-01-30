@@ -44,7 +44,7 @@ struct ProfileHeaderView<Content: View>: View {
 
             VStack(alignment: .leading, spacing: 12) {
                 // 个签
-                ProfileTagView(title: "个签", content: model.bio != "" ? model.bio : "TA还未设置个性签名")
+                ProfileTagView(content: model.bio != "" ? model.bio : "TA还未设置个性签名")
                 HStack(spacing: 10) {
                     // 等级
                     levelView
@@ -58,7 +58,6 @@ struct ProfileHeaderView<Content: View>: View {
                 }
             }
         }
-        .frame(maxWidth: .infinity)
         .padding(.horizontal, 24)
     }
 
@@ -94,7 +93,28 @@ struct ProfileHeaderView<Content: View>: View {
                 ForEach(model.tags, id: \.emoji) { result in
                     ProfileTagView(title: result.emoji, content: result.text)
                 }
+                if model.tags.count < 3 {
+                    addTagButton
+                }
             }
+        }
+    }
+
+    var addTagButton: some View {
+        HStack(spacing: 7) {
+            Image(systemName: "plus")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 10)
+            Text("状态")
+                .font(.system(size: 12, weight: .regular))
+        }
+        .foregroundStyle(Color.flyGray)
+        .frame(height: 26)
+        .padding(.horizontal, 16)
+        .background {
+            RoundedRectangle(cornerRadius: 4)
+                .stroke(Color.flyLightGray, lineWidth: 1)
         }
     }
 

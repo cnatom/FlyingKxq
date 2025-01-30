@@ -111,7 +111,7 @@ struct FlyTabView<Header, Content>: View where Header: View, Content: View {
             VStack(spacing: 0) {
                 Color.clear.frame(height: self.safeAreaInsets.top)
                 headerView
-                    .opacity(min(1.0 - stickyProgress, 0.8))
+                    .opacity(min(1.0 - stickyProgress, 1.0))
                 Spacer().frame(height: 28)
                 VStack(spacing: 0) {
                     tabBarView
