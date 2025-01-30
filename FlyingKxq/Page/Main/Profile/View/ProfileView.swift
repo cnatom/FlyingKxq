@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-@_spi(Advanced) import SwiftUIIntrospect
 
 struct ProfileView: View {
     @State var selectedIndex: CGFloat = 0.0
