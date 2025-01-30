@@ -7,68 +7,69 @@
 
 import SwiftUI
 
-@MainActor
 struct FlyCachedImageView<ImageView: View, PlaceholderView: View>: View {
-    // Input dependencies
-    var url: URL?
     @ViewBuilder var content: (Image) -> ImageView
     @ViewBuilder var placeholder: () -> PlaceholderView
 
-    // Downloaded image
+    let url: URL?
     @State var image: UIImage? = nil
+    let needToken: Bool
 
     init(
         url: URL?,
+        needToken: Bool = false,
         @ViewBuilder content: @escaping (Image) -> ImageView,
         @ViewBuilder placeholder: @escaping () -> PlaceholderView
     ) {
         self.url = url
         self.content = content
         self.placeholder = placeholder
+        self.needToken = needToken
     }
 
     var body: some View {
         VStack {
             if let uiImage = image {
                 content(Image(uiImage: uiImage))
-                    .onChange(of: self.url) { _ in
-                        image = nil
-                    }
             } else {
                 placeholder()
-                    .onAppear {
-                        Task {
-                            image = await downloadPhoto()
-                        }
-                    }
             }
         }
+        .onAppear {
+            Task {
+                image = await downloadPhoto()
+            }
+        }
+        .id(url)
         .animation(.easeInOut, value: image)
     }
 
-    // Downloads if the image is not cached already
-    // Otherwise returns from the cache
     private func downloadPhoto() async -> UIImage? {
         do {
-            guard let url else { return nil }
-
-            // Check if the image is cached already
-            if let cachedResponse = URLCache.shared.cachedResponse(for: .init(url: url)) {
-                return UIImage(data: cachedResponse.data)
-            } else {
-                let (data, response) = try await URLSession.shared.data(from: url)
-
-                // Save returned image data into the cache
-                URLCache.shared.storeCachedResponse(.init(response: response, data: data), for: .init(url: url))
-
-                guard let image = UIImage(data: data) else {
+            guard let url = url else { return nil }
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            if needToken {
+                // 引入token
+                guard let token = FlyKeyChain.shared.read(key: .token) else {
+                    print("未找到Token")
                     return nil
                 }
+                request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            }
+            // 检查图片是否已缓存
+            if let cachedResponse = URLCache.shared.cachedResponse(for: request) {
+                return UIImage(data: cachedResponse.data)
+            } else {
+                let (data, response) = try await URLSession.shared.data(for: request)
 
-                return image
+                // 缓存请求数据
+                URLCache.shared.storeCachedResponse(CachedURLResponse(response: response, data: data), for: request)
+
+                return UIImage(data: data)
             }
         } catch {
-            print("Error downloading: \(error)")
+            print("下载图片失败: \(error)")
             return nil
         }
     }

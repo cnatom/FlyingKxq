@@ -24,9 +24,11 @@ class UserInfoEditAPI: APIConfiguration, MockableAPI {
         "/api/user/info/v1/me/" + type.rawValue
     }
 
-    init(type: UserInfoEditType, value: String) {
+    init(type: UserInfoEditType, value: String? = nil) {
         self.type = type
-        parameters[type.rawValue] = value
+        if let value = value, type != .avatar {
+            parameters[type.rawValue] = value
+        }
     }
 
     var method: HTTPMethod {
@@ -37,14 +39,23 @@ class UserInfoEditAPI: APIConfiguration, MockableAPI {
 
     var parameters: [String: Any] = [:]
 
+    var parameterType: RequestParameterType {
+        if type == .avatar {
+            return .form
+        } else {
+            return .json
+        }
+    }
+
     var response: UserInfoEditAPIResponse?
 
     var mockData: UserInfoEditAPIResponse {
-        UserInfoEditAPIResponse(code: 200, msg: "成功")
+        UserInfoEditAPIResponse(code: 200, msg: "成功", data: nil)
     }
 }
 
 struct UserInfoEditAPIResponse: Codable {
     let code: Int
     let msg: String
+    let data: String?
 }

@@ -17,7 +17,7 @@ class RefreshTokenAPI: APIConfiguration, MockableAPI {
     
     var headers: [String: String] = ["Device-Type": "MOBILE_CLIENT"]
     
-    var parameters: [String: Any] = [:]
+    var parameters: [String : Any] = [:]
     
     var response: LoginAPIResponse?
     

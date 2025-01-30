@@ -7,7 +7,7 @@
 
 import Alamofire
 
-class UnifiedAuthAPI: APIConfiguration,MockableAPI {
+class UnifiedAuthAPI: APIConfiguration, MockableAPI {
     var path: String {
         "/api/auth/v1/authentication/unifiedAuth"
     }
@@ -17,11 +17,11 @@ class UnifiedAuthAPI: APIConfiguration,MockableAPI {
     }
 
     var headers: [String: String] = ["Device-Type": "MOBILE_CLIENT"]
-    
-    var parameters: [String : Any] = [:]
+
+    var parameters: [String: Any] = [:]
 
     var response: UnifiedAuthAPIResponse?
-    
+
     var mockData: UnifiedAuthAPIResponse {
         UnifiedAuthAPIResponse(
             code: 200,

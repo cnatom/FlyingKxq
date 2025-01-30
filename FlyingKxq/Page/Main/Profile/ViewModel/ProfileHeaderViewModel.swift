@@ -56,6 +56,34 @@ class ProfileHeaderViewModel: ObservableObject {
         }
     }
 
+    func uploadImage(uiImage: UIImage) async -> ToastLoadingModel {
+        // 检查图片大小，如果超过 5M 则提示
+        guard let imageSize = uiImage.sizeKB, imageSize < 1024 * 10 else {
+            return ToastLoadingModel(text: "请选择10M以内的图片", success: false)
+        }
+        // 压缩图片
+        guard let compressedData = await uiImage.compress(to: 200) else {
+            return ToastLoadingModel(text: "", success: false)
+        }
+        // 上传
+        var api = UserInfoEditAPI(type: .avatar)
+        api.injectToken = true
+        api.parameters["file"] = compressedData
+        do {
+            let response: UserInfoEditAPIResponse = try await NetworkManager.shared.request(api: api)
+            if response.code == 200 {
+                updateUI {
+                    self.model.avatarUrl = response.data ?? ""
+                }
+                return ToastLoadingModel(text: "上传成功", success: true)
+            } else {
+                return ToastLoadingModel(text: "\(response.msg)", success: false)
+            }
+        } catch {
+            return ToastLoadingModel(text: "上传失败,请检查网络连接", success: false)
+        }
+    }
+
     func getData() async -> Bool {
         if model.username != "" { return false }
         if loading { return false }

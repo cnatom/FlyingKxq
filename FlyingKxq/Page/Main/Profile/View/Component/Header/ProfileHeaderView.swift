@@ -61,29 +61,18 @@ struct ProfileHeaderView<Content: View>: View {
         .padding(.horizontal, 24)
     }
 
+    @ViewBuilder
     var avatarView: some View {
-        let placeHolder = Color.flySecondaryBackground
-            .clipShape(.circle)
-            .frame(width: 55, height: 55)
-
-        return AsyncImage(url: URL(string: model.avatarUrl), transaction: Transaction(animation: .easeInOut)) { phase in
-            switch phase {
-            case .empty:
-                placeHolder
-            case let .success(image):
-                image
-                    .resizable()
-                    .scaledToFit()
-                    .clipShape(.circle)
-                    .frame(width: 55)
-            case .failure:
-                Image(systemName: "photo.badge.exclamationmark")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 55)
-            @unknown default:
-                placeHolder
-            }
+        FlyCachedImageView(url: URL(string: model.avatarUrl), needToken: true) { image in
+            image
+                .resizable()
+                .scaledToFill()
+                .frame(width: 60, height: 60, alignment: .center)
+                .clipShape(Circle())
+        } placeholder: {
+            Color.flySecondaryBackground
+                .clipShape(.circle)
+                .frame(width: 60, height: 60)
         }
     }
 

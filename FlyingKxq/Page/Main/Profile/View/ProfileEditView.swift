@@ -23,11 +23,20 @@ struct ProfileEditRowData {
 struct ProfileEditView: View {
     @EnvironmentObject var viewModel: ProfileHeaderViewModel
     @EnvironmentObject var toast: ToastViewModel
+    @State var showImagePicker = false
 
     func editProfile(_ value: String, type: UserInfoEditType) {
         Task {
             toast.start("修改中")
             let result = await viewModel.editProfile(type: type, value: value)
+            toast.end(result)
+        }
+    }
+
+    func uploadImage(_ image: UIImage) {
+        Task {
+            toast.start("上传中")
+            let result = await viewModel.uploadImage(uiImage: image)
             toast.end(result)
         }
     }
@@ -124,6 +133,9 @@ struct ProfileEditView: View {
                     }
                 }
             }
+            .flyImagePicker(isPresented: $showImagePicker) { image in
+                uploadImage(image)
+            }
         }
     }
 
@@ -173,15 +185,18 @@ struct ProfileEditView: View {
 
     @ViewBuilder
     var avaterView: some View {
-        let imageView = FlyCachedImageView(url: URL(string: "https://qlogo2.store.qq.com/qzone/1004275481/1004275481/100")) { image in
+        let imageView = FlyCachedImageView(url: URL(string: viewModel.model.avatarUrl), needToken: true) { image in
             image
                 .resizable()
-                .clipShape(.circle)
+                .scaledToFill()
                 .frame(width: 60, height: 60)
+                .clipShape(.circle)
+
         } placeholder: {
             Color.flySecondaryBackground.clipShape(.circle).frame(width: 60, height: 60)
         }
         Button {
+            self.showImagePicker = true
         } label: {
             ZStack(alignment: .bottom) {
                 imageView

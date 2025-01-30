@@ -23,10 +23,12 @@ struct ProfileView: View {
 
                 }) {
                     [
-                        ProfileTabContent.comment,
+//                        ProfileTabContent.comment,
                         ProfileTabContent.text("Hello"),
-                        ProfileTabContent.post(AnyView(Text("Hello2"))),
-                        ProfileTabContent.comment,
+                        ProfileTabContent.text("Hello"),
+                        ProfileTabContent.text("Hello"),
+                        ProfileTabContent.text("Hello"),
+//                        ProfileTabContent.comment,
                     ]
                 }
         }
@@ -40,7 +42,18 @@ struct ProfileView: View {
                 action: [FlyIconButton(iconName: "ellipsis", iconColor: Color.flyTextGray)]
             )
             ProfileHeaderView(
-                model: viewModel.model,
+//                model: viewModel.model,
+                model: .init(
+                    avatarUrl: viewModel.model.avatarUrl,
+                    name: "卖女孩的小火柴",
+                    username: "username",
+                    bio: "",
+                    level: 5,
+                    fanNumber: 10,
+                    followNumber: 231,
+                    likeNumber: 98,
+                    tags: []
+                ),
                 trailingView: {
                     NavigationLink {
                         ProfileEditView()
