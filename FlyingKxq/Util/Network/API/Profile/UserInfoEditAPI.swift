@@ -49,8 +49,14 @@ class UserInfoEditAPI: APIConfiguration, MockableAPI {
 
     var response: UserInfoEditAPIResponse?
 
-    var mockData: UserInfoEditAPIResponse {
-        UserInfoEditAPIResponse(code: 200, msg: "成功", data: nil)
+    var mockData: String {
+        """
+        {
+            "code": 200,
+            "msg": "成功",
+            "data": null
+        }
+        """
     }
 }
 

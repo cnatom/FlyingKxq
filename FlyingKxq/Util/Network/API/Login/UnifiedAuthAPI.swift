@@ -22,16 +22,18 @@ class UnifiedAuthAPI: APIConfiguration, MockableAPI {
 
     var response: UnifiedAuthAPIResponse?
 
-    var mockData: UnifiedAuthAPIResponse {
-        UnifiedAuthAPIResponse(
-            code: 200,
-            msg: "成功",
-            data: UnifiedAuthAPIResponseData(
-                type: "unified_auth",
-                token: "723e5af3de084a86a1fdf8ed771e79a5",
-                expiresIn: 900
-            )
-        )
+    var mockData: String {
+        """
+        {
+            "code": 200,
+            "msg": "成功",
+            "data": {
+                "type": "unified_auth",
+                "token": "723e5af3de084a86a1fdf8ed771e79a5",
+                "expiresIn": 900
+            }
+        }
+        """
     }
 }
 

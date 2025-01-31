@@ -6,6 +6,5 @@
 //
 
 protocol MockableAPI {
-    associatedtype ResponseType: Codable
-    var mockData: ResponseType { get }
+    var mockData: String { get }
 }

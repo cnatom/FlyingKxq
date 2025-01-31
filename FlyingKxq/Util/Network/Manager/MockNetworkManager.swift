@@ -9,9 +9,10 @@ import Alamofire
 class MockNetworkManager: NetworkManagerProtocol {
     func request<T: APIConfiguration>(api: T) async throws -> T.ResponseType where T: APIConfiguration {
         if let mockableAPI = api as? (any MockableAPI),
-           let mockData = mockableAPI.mockData as? T.ResponseType {
+           let jsonData = mockableAPI.mockData.data(using: .utf8) {
+            let response = try JSONDecoder().decode(T.ResponseType.self, from: jsonData)
             await Task.flySleep(1)
-            return mockData
+            return response
         }
         throw AFError.responseSerializationFailed(reason: .inputDataNilOrZeroLength)
     }

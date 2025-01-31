@@ -21,32 +21,30 @@ class UserInfoAPI: APIConfiguration, MockableAPI {
 
     var response: UserInfoAPIResponse?
 
-    var mockData: UserInfoAPIResponse {
-        UserInfoAPIResponse(
-            code: 200,
-            msg: "成功",
-            data: UserInfoAPIResponseDataClass(
-                userID: "5a50eae4a24c4ebfbdf16b7c537b81aa",
-                username: "qqqqqq",
-                nickname: "圈圈IOjeRF",
-                avatar: "https://qlogo2.store.qq.com/qzone/1004275481/1004275481/100",
-                banner: nil,
-                bio: "卖女孩的小火柴",
-                hometown: "山东潍坊",
-                major: "",
-                grade: "",
-                gender: 0,
-                level: 4,
-                experience: 300,
-                followersCount: 321,
-                followingCount: 123,
-                likeReceivedCount: 412,
-                status: [
-                    UserInfoAPIResponseStatus(emoji: "❤️", text: "恋爱中", endTime: "2026-10-10T00:00:00"),
-                    UserInfoAPIResponseStatus(emoji: "😃", text: "开心", endTime: "2025-10-10T00:00:00"),
-                ]
-            )
-        )
+    var mockData: String {
+        """
+        {
+            "code": 200,
+            "msg": "成功",
+            "data": {
+                "userId": "7bc19f9be50a437f9d9d45193d065b38",
+                "username": "qqqqqq",
+                "nickname": "圈圈FUknaN",
+                "avatar": "http://119.45.93.228:8080/api/file/v1/public/e59b8e263ee1764656e34ef38322f234a67ae9417d66c70652f90311db9271b3.jpg",
+                "bio": "",
+                "gender": 1,
+                "hometown": "",
+                "major": null,
+                "grade": null,
+                "statuses": null,
+                "level": 5,
+                "experience": 0,
+                "followersCount": 2,
+                "followingsCount": 0,
+                "likeReceivedCount": 0
+            }
+        }
+        """
     }
 }
 
