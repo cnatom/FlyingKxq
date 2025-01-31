@@ -14,7 +14,7 @@ struct ProfileView: View {
 
     var body: some View {
         FlyNavigationView {
-            FlyTabView(
+            FlyStickyTabView(
                 selectedIndex: $selectedIndex,
                 tabBarType: .profile,
                 items: items,
