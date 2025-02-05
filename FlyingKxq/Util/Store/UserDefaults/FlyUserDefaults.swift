@@ -16,6 +16,7 @@ class FlyUserDefaults {
 
     enum Key: String, CaseIterable {
         case isLoggedIn
+        case newsType
     }
 
     func set<T>(_ value: T, for key: Key) {

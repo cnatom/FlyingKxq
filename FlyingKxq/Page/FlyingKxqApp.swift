@@ -11,17 +11,15 @@ import SwiftUI
 struct FlyingKxqApp: App {
     @StateObject var appState = AuthManager.shared
     @StateObject var toastViewModel = ToastViewModel()
+    init(){
+        UITabBar.appearance().isHidden = true
+    }
     var body: some Scene {
         WindowGroup {
             ZStack(alignment: .center) {
                 if appState.isLoggedIn {
                     MainTabView()
                         .transition(.offset(x: 0, y: 40).combined(with: .opacity))
-                        .onAppear {
-                            Task {
-                                await appState.refreshTokenIfNeed()
-                            }
-                        }
 
                 } else {
                     LoginView()

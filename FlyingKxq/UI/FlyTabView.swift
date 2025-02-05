@@ -26,18 +26,17 @@ struct FlyTabView: View {
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 0) {
-                Color.red.frame(height: 10)
-                    .onFrameChange {
-                        // 左右偏移量
-                        let minX = $0.minX
-                        selectedIndex = (-minX / allPageWidth) * itemsCountFloat
-                    }
                 ForEach(Array(views.enumerated()),id:\.offset) { index,view in
                     view
                         .frame(width: self.screenSize.width)
                         .frame(maxHeight: .infinity)
                     
                 }
+            }
+            .onFrameChange {
+                // 左右偏移量
+                let minX = $0.minX
+                selectedIndex = (-minX / allPageWidth) * itemsCountFloat
             }
             
         }

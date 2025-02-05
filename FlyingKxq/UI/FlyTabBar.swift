@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FlyTabBar: View {
-    @Binding var selectedIndex: CGFloat
+    @Binding var selectedIndex: Int
     let items: [String]
     let spaceAround: Bool
     let scrollDisabled = false
@@ -16,7 +16,7 @@ struct FlyTabBar: View {
     let type: FlyTabBarItemType
     @State var itemSize: CGSize? = nil
 
-    init(selectedIndex: Binding<CGFloat>,
+    init(selectedIndex: Binding<Int>,
          spaceAround: Bool = true,
          spacing: CGFloat = 0,
          type: FlyTabBarItemType = .profile,
@@ -32,7 +32,7 @@ struct FlyTabBar: View {
     var body: some View {
         HStack(spacing: 0) {
             ForEach(items.indices, id: \.self) { index in
-                let selected = Int(selectedIndex.rounded()) == index
+                let selected = selectedIndex == index
                 Group {
                     switch type {
                     case .profile:
@@ -43,6 +43,7 @@ struct FlyTabBar: View {
                         FlyTabBarItemTypeView.profile(text: items[index], selected: selected,textSize: 16)
                     }
                 }
+                .id(index)
                 .padding(.trailing,spacing)
                 .animation(.easeInOut, value: selected)
                 .frame(maxWidth: spaceAround ? .infinity : nil)
@@ -54,7 +55,7 @@ struct FlyTabBar: View {
                 }
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    smoothScrollTo(targetIndex: CGFloat(index), duration: 0.1)
+                    selectedIndex = index
                 }
             }
         }
@@ -66,29 +67,13 @@ struct FlyTabBar: View {
         }
     }
 
-    private func smoothScrollTo(targetIndex: CGFloat, duration: Double) {
-        let currentIndex = selectedIndex
-        let steps = 50 // 分为 50 步
-        let stepDuration = duration / Double(steps) // 每一步的动画时间
-        let stepValue = (targetIndex - currentIndex) / CGFloat(steps) // 每一步增加的值
-
-        // 使用 DispatchQueue 实现逐步更新
-        for step in 1 ... steps {
-            DispatchQueue.main.asyncAfter(deadline: .now() + stepDuration * Double(step)) {
-                withAnimation(.easeInOut) {
-                    selectedIndex = currentIndex + stepValue * CGFloat(step)
-                }
-            }
-        }
-    }
-
     @ViewBuilder
     func indicatorView() -> some View {
         GeometryReader { proxy in
             let width = proxy.size.width
             let count = CGFloat(items.count)
             let itemWidth = width / count
-            let offsetX = selectedIndex * (width / count) + itemWidth / 2 - barWidth / 2 - spacing / 2
+            let offsetX = CGFloat(selectedIndex) * (width / count) + itemWidth / 2 - barWidth / 2 - spacing / 2
             Group {
                 switch type {
                 case .profile:
@@ -102,6 +87,7 @@ struct FlyTabBar: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
             .offset(x: offsetX)
+            .animation(.easeInOut, value: offsetX)
         }
     }
 
@@ -176,13 +162,13 @@ enum FlyTabBarItemIndicatorView: View {
         case let .chip(size):
             RoundedRectangle(cornerRadius: 100)
                 .frame(width: size.width, height: size.height)
-                .foregroundStyle(Color.flySecondaryBackground)
+                .foregroundStyle(Color.flyChipBackground)
         }
     }
 }
 
 struct FlyTabBarPreview: View {
-    @State private var sliderValue: CGFloat = 1.0 // 默认值为 0.0
+    @State private var sliderValue: Int = 1 // 默认值为 0.0
     let items = ["消息", "评论", "帖子", "收藏"]
     var body: some View {
         VStack(spacing:40) {
@@ -192,7 +178,11 @@ struct FlyTabBarPreview: View {
             FlyTabBar(selectedIndex: $sliderValue, spaceAround: true, type: .profile, items: items)
             FlyTabBar(selectedIndex: $sliderValue, spaceAround: false, spacing: 20, type: .news, items: items)
             FlyTabBar(selectedIndex: $sliderValue, spaceAround: true, spacing: 20, type: .profile, items: items)
-            Slider(value: $sliderValue, in: 0.0 ... 3.0, step: 0.01)
+            Slider(value: Binding(get: {
+                Double(sliderValue)
+            }, set: { value in
+                sliderValue = Int(value)
+            }), in: 0.0 ... 3.0, step: 0.1)
                 .accentColor(.blue)
                 .padding()
         }

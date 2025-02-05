@@ -41,6 +41,16 @@ extension View {
                 }
         })
     }
+    
+    func onFrameAppear(in coordinateSpace: CoordinateSpace = .global, _ action: @escaping (CGRect) -> Void) -> some View {
+        background(GeometryReader { geometry in
+            Color.clear
+                .frame(maxWidth: 0, maxHeight: 0)
+                .onAppear{
+                    action(geometry.frame(in: coordinateSpace))
+                }
+        })
+    }
 
     func onFrameChange(in coordinateSpace: CoordinateSpace = .global, _ action: @escaping (CGRect) -> Void) -> some View {
         background(GeometryReader { geometry in

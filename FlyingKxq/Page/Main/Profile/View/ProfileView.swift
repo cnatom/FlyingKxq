@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @State var selectedIndex: CGFloat = 0.0
+    @State var selectedIndex: Int = 0
     @StateObject var viewModel = ProfileHeaderViewModel()
     let items = ["消息", "帖子", "评论", "收藏"]
 
@@ -18,17 +18,12 @@ struct ProfileView: View {
                 selectedIndex: $selectedIndex,
                 tabBarType: .profile,
                 items: items,
-                headerView: header,
-                selectedIndexCallBack: { _ in
-
-                }) {
+                headerView: header){
                     [
-//                        ProfileTabContent.comment,
-                        ProfileTabContent.text("Hello"),
-                        ProfileTabContent.text("Hello"),
-                        ProfileTabContent.text("Hello"),
-                        ProfileTabContent.text("Hello"),
-//                        ProfileTabContent.comment,
+                        ProfileTabContent.comment,
+                        ProfileTabContent.comment,
+                        ProfileTabContent.comment,
+                        ProfileTabContent.comment,
                     ]
                 }
         }

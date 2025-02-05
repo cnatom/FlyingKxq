@@ -52,7 +52,6 @@ struct FlyCachedImageView<ImageView: View, PlaceholderView: View>: View {
             if needToken {
                 // 引入token
                 guard let token = FlyKeyChain.shared.read(key: .token) else {
-                    print("未找到Token")
                     return nil
                 }
                 request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")

@@ -25,60 +25,77 @@ class NewsTypeAPI: APIConfiguration, MockableAPI {
     var mockData: String {
         """
         {
-            "code": 200,
-            "msg": "成功",
-            "data": {
-                "newsCategory": {
-                    "校园": [
-                        {
-                            "newsType": "新闻网",
-                            "shortName": "新闻网",
-                            "sourceName": [
-                                "视点新闻",
-                                "世界动态",
-                                "美丽校园"
-                            ]
-                        }
-                    ],
-                    "学院": [
-                        {
-                            "newsType": "计算机科学与技术学院",
-                            "shortName": "计算机",
-                            "sourceName": [
-                                "通知公告",
-                                "学术动态",
-                                "教学通知"
-                            ]
-                        },
-                        {
-                            "newsType": "人文与与艺术学院",
-                            "shortName": "人文",
-                            "sourceName": [
-                                "通知公告"
-                            ]
-                        }
-                    ]
-                }
+        "code": 200,
+        "msg": "成功",
+        "data": {
+        "newsCategory": [
+            {
+                "categoryName": "学校",
+                "categoryList": [
+                    {
+                        "newsType": "中国矿业大学新闻网",
+                        "shortName": "新闻网",
+                        "sourceName": [
+                            "视点新闻",
+                            "奋进之歌",
+                            "学术聚焦",
+                            "校园快讯"
+                        ]
+                    }
+                ]
+            },
+            {
+                "categoryName": "学院",
+                "categoryList": [
+                    {
+                        "newsType": "计算机科学与技术学院",
+                        "shortName": "计算机",
+                        "sourceName": [
+                            "通知公告",
+                            "学术动态",
+                            "教学通知"
+                        ]
+                    },
+                    {
+                        "newsType": "人文与与艺术学院",
+                        "shortName": "人文",
+                        "sourceName": [
+                            "通知公告"
+                        ]
+                    }
+                ]
             }
+        ]
+        }
         }
         """
     }
 }
 
-// MARK: - UserInfoAPIResponse
+// MARK: - NewsTypeAPIResponse
 
 struct NewsTypeAPIResponse: Codable {
     let code: Int?
     let msg: String?
-    let data: NewsTypeAPIResponseData?
+    let data: NewsTypeAPIResponseDataClass?
 }
 
-struct NewsTypeAPIResponseData: Codable {
-    let newsCategory: [String: [NewsTypeAPIResponseDataCategory]]?
+// MARK: - DataClass
+
+struct NewsTypeAPIResponseDataClass: Codable {
+    let newsCategory: [NewsSource]?
 }
 
-struct NewsTypeAPIResponseDataCategory: Codable {
-    let newsType: String?
-    let shortName: String?
+// MARK: - NewsCategory
+
+struct NewsSource: Codable {
+    let categoryName: String?
+    let categoryList: [NewsTypeAPIResponseCategoryList]?
+}
+
+// MARK: - CategoryList
+
+struct NewsTypeAPIResponseCategoryList: Codable {
+    let newsType, shortName: String?
     let sourceName: [String]?
 }
