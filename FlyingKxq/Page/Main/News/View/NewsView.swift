@@ -19,7 +19,6 @@ struct NewsView: View {
     @State var tabBar2OffsetY: CGFloat = 0
     @State var scrollViewDelegate: NewsScrollViewDelegate?
     var tabBar2OffsetProgress: CGFloat {
-        print(tabBar2OffsetY / tabBar2Height)
         return tabBar2OffsetY / tabBar2Height
     }
 
@@ -89,25 +88,10 @@ struct NewsView: View {
         }
         .onAppear {
             viewModel.getNewsType()
-            scrollViewDelegate = NewsScrollViewDelegate(
-                onScrollStart: { _ in
-                    tabBar2OffsetYLast = tabBar2OffsetY
-                }, onScrollOffset: { offsetY, totalOffset in
-                    if totalOffset > 0 {
-                        var temp = offsetY
-                        if offsetY < 0 {
-                            temp = max(offsetY + tabBar2OffsetYLast, 0)
-                        } else if offsetY > tabBar2Height {
-                            temp = min(tabBar2Height, offsetY + tabBar2OffsetYLast)
-                        } else {
-                            temp = offsetY + tabBar2OffsetYLast
-                        }
-                        tabBar2OffsetY = temp
-                    }
-                }, onReverse: { _ in
-                    tabBar2OffsetYLast = tabBar2OffsetY
-                }
-            )
+            scrollViewDelegate = NewsScrollViewDelegate(onDeltaChange: { offsetY in
+                tabBar2OffsetY += offsetY
+                tabBar2OffsetY = min(max(tabBar2OffsetY, 0), tabBar2Height)
+            })
         }
         .ignoresSafeArea(.all, edges: .top)
     }
@@ -146,52 +130,25 @@ struct NewsView: View {
         .padding(.bottom, 5)
     }
 }
-
 class NewsScrollViewDelegate: NSObject, UIScrollViewDelegate {
-    let onScrollStart: (CGFloat) -> Void
-    let onScrollOffset: (CGFloat, CGFloat) -> Void
-    let onScrollEnd: (CGFloat) -> Void
-    let onReverse: (Bool) -> Void
-    var initOffsetY: CGFloat = 0
-    var lastOffsetY: CGFloat = 0
-    var newOffsetY: CGFloat = 0
-    var down = false
-
-    init(onScrollStart: @escaping (CGFloat) -> Void = { _ in }, onScrollOffset: @escaping (CGFloat, CGFloat) -> Void = { _, _ in },
-         onReverse: @escaping (Bool) -> Void = { _ in },
-         onScrollEnd: @escaping (CGFloat) -> Void = { _ in }) {
-        self.onScrollOffset = onScrollOffset
-        self.onScrollEnd = onScrollEnd
-        self.onScrollStart = onScrollStart
-        self.onReverse = onReverse
+    private var lastContentOffsetY: CGFloat = 0
+    private let onDeltaChange: (CGFloat) -> Void
+    
+    init(onDeltaChange: @escaping (CGFloat) -> Void) {
+        self.onDeltaChange = onDeltaChange
     }
-
+    
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        initOffsetY = scrollView.contentOffset.y
-        onScrollStart(initOffsetY)
+        lastContentOffsetY = scrollView.contentOffset.y
     }
-
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        newOffsetY = scrollView.contentOffset.y
-        if newOffsetY - lastOffsetY > 0 {
-            if down {
-                initOffsetY = lastOffsetY
-                onReverse(true)
-                down = false
-            }
-        } else {
-            if !down {
-                initOffsetY = lastOffsetY
-                onReverse(false)
-                down = true
-            }
+        let newContentOffsetY = scrollView.contentOffset.y
+        let delta = newContentOffsetY - lastContentOffsetY
+        if newContentOffsetY > 0 {
+            onDeltaChange(delta)
         }
-        onScrollOffset(newOffsetY - initOffsetY, newOffsetY)
-        lastOffsetY = newOffsetY
-    }
-
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        onScrollEnd(newOffsetY - initOffsetY)
+        lastContentOffsetY = newContentOffsetY
     }
 }
 
