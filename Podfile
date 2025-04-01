@@ -6,6 +6,7 @@ target 'FlyingKxq' do
   pod 'SDWebImageSwiftUI'  # 图片
   pod 'SwiftUIIntrospect', '~> 1.0' # 调用UIKit
   pod 'SnapKit', '~> 5.7.0' # 布局
+  pod 'Down'  # markdown
   
   target 'FlyingKxqTests' do
     inherit! :search_paths

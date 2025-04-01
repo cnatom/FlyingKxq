@@ -1,5 +1,6 @@
 ${PODS_ROOT}/Target Support Files/Pods-FlyingKxq/Pods-FlyingKxq-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework
+${BUILT_PRODUCTS_DIR}/Down/Down.framework
 ${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework
 ${BUILT_PRODUCTS_DIR}/SDWebImageSwiftUI/SDWebImageSwiftUI.framework
 ${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework

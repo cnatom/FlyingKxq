@@ -1,9 +1,9 @@
 CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Alamofire" "${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage" "${PODS_CONFIGURATION_BUILD_DIR}/SDWebImageSwiftUI" "${PODS_CONFIGURATION_BUILD_DIR}/SnapKit" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftUIIntrospect"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Alamofire" "${PODS_CONFIGURATION_BUILD_DIR}/Down" "${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage" "${PODS_CONFIGURATION_BUILD_DIR}/SDWebImageSwiftUI" "${PODS_CONFIGURATION_BUILD_DIR}/SnapKit" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftUIIntrospect"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Alamofire/Alamofire.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage/SDWebImage.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/SDWebImageSwiftUI/SDWebImageSwiftUI.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/SnapKit/SnapKit.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftUIIntrospect/SwiftUIIntrospect.framework/Headers"
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Alamofire/Alamofire.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/Down/Down.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage/SDWebImage.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/SDWebImageSwiftUI/SDWebImageSwiftUI.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/SnapKit/SnapKit.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftUIIntrospect/SwiftUIIntrospect.framework/Headers"
 LIBRARY_SEARCH_PATHS = $(inherited) $(SDKROOT)/usr/lib/swift
-OTHER_LDFLAGS = $(inherited) -l"swiftCoreGraphics" -framework "Alamofire" -framework "CFNetwork" -framework "ImageIO" -framework "SDWebImage" -framework "SDWebImageSwiftUI" -framework "SnapKit" -framework "SwiftUIIntrospect" -weak_framework "Combine" -weak_framework "SwiftUI"
+OTHER_LDFLAGS = $(inherited) -l"swiftCoreGraphics" -framework "Alamofire" -framework "CFNetwork" -framework "Down" -framework "ImageIO" -framework "SDWebImage" -framework "SDWebImageSwiftUI" -framework "SnapKit" -framework "SwiftUIIntrospect" -weak_framework "Combine" -weak_framework "SwiftUI"
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_PODFILE_DIR_PATH = ${SRCROOT}/.
