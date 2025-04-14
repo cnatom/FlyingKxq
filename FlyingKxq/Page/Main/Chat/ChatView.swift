@@ -12,11 +12,12 @@ import SwiftUI
 struct ChatView: View {
     /// 视图模型，管理所有状态和业务逻辑
     @StateObject private var viewModel = ChatViewModel()
-    
+
     var body: some View {
         GeometryReader { geometry in
             ZStack {
                 // MARK: - 主聊天区域
+
                 ChatArea(
                     messages: viewModel.messages,
                     currentMessage: viewModel.currentMessage,
@@ -30,8 +31,10 @@ struct ChatView: View {
                     onScrollToBottom: { }
                 )
                 .frame(width: geometry.size.width)
-                
+                .overlay { Color.gray.opacity(viewModel.sidebarOffsetProgress) }
+
                 // MARK: - 侧边栏
+
                 ChatSidebar(
                     sessions: viewModel.chatSessions,
                     currentSessionId: viewModel.currentSessionId,
@@ -41,7 +44,9 @@ struct ChatView: View {
                 )
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
+
             // MARK: - 手势处理
+
             .gesture(
                 DragGesture()
                     .onChanged { value in

@@ -13,10 +13,13 @@ struct ChatViewState {
     var currentMessage: String = ""
     
     /// 侧边栏是否可见
-    var isSidebarVisible: Bool = true
+    var isSidebarVisible: Bool = false
     
     /// 侧边栏偏移量
     var sidebarOffset: CGFloat = 0
+    
+    /// 主界面的灰度值
+    var mainViewGrayScale: Double = 0
     
     /// 是否需要滚动到底部
     var scrollToBottom: Bool = false
