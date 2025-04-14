@@ -170,7 +170,10 @@ class ChatViewModel: ObservableObject {
             // 保存新会话
             try storageService.saveChatSessions(state.chatSessions)
 
-            toggleSidebar() // 创建新聊天后关闭侧边栏
+            // 确保侧边栏是打开的
+            if state.isSidebarVisible {
+                toggleSidebar()
+            }
         } catch {
             handleError(ChatError.storageError("无法保存新的聊天会话"))
         }
@@ -260,6 +263,6 @@ class ChatViewModel: ObservableObject {
     var isSidebarVisible: Bool { state.isSidebarVisible }
     var isLoading: Bool { state.isLoading }
     var sidebarOffsetProgress: CGFloat {
-        return min(1 + state.sidebarOffset / sidebarWidth, 0.5)
+        return min(1 + state.sidebarOffset / sidebarWidth, 0.3)
     }
 }

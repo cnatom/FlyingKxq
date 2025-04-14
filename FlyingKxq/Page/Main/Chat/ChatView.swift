@@ -12,29 +12,58 @@ import SwiftUI
 struct ChatView: View {
     /// 视图模型，管理所有状态和业务逻辑
     @StateObject private var viewModel = ChatViewModel()
-
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                // MARK: - 主聊天区域
-
-                ChatArea(
-                    messages: viewModel.messages,
-                    currentMessage: viewModel.currentMessage,
-                    isLoading: viewModel.isLoading,
-                    onMessageChange: { viewModel.currentMessage = $0 },
-                    onSendMessage: {
-                        Task {
-                            await viewModel.sendMessage()
+                VStack(spacing: 0) {
+                    // MARK: - 顶栏
+                    ChatTopBar(
+                        onMenuTap: {
+                            viewModel.toggleSidebar()
+                        },
+                        onNewChat: {
+                            viewModel.createNewChat()
+                        },
+                        title: "ChatGPT 4.0"
+                    )
+                    
+                    // MARK: - 主聊天区域
+                    if viewModel.messages.isEmpty {
+                        EmptyChatView()
+                            .frame(width: geometry.size.width)
+                    } else {
+                        ChatArea(
+                            messages: viewModel.messages,
+                            isLoading: viewModel.isLoading,
+                            onScrollToBottom: { }
+                        )
+                        .frame(width: geometry.size.width)
+                    }
+                    
+                    // MARK: - 输入框
+                    MessageInputView(
+                        message: $viewModel.currentMessage,
+                        isLoading: viewModel.isLoading,
+                        onSend: {
+                            Task {
+                                await viewModel.sendMessage()
+                            }
                         }
-                    },
-                    onScrollToBottom: { }
-                )
-                .frame(width: geometry.size.width)
-                .overlay { Color.gray.opacity(viewModel.sidebarOffsetProgress) }
-
+                    )
+                }
+                .overlay {
+                    // MARK: - 半透明遮罩
+                    Color.black.opacity(viewModel.sidebarOffsetProgress)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            if viewModel.isSidebarVisible {
+                                viewModel.toggleSidebar()
+                            }
+                        }
+                }
+                
                 // MARK: - 侧边栏
-
                 ChatSidebar(
                     sessions: viewModel.chatSessions,
                     currentSessionId: viewModel.currentSessionId,
@@ -44,9 +73,7 @@ struct ChatView: View {
                 )
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
-
             // MARK: - 手势处理
-
             .gesture(
                 DragGesture()
                     .onChanged { value in

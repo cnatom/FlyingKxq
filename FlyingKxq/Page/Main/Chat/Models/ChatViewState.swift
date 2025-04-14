@@ -16,7 +16,7 @@ struct ChatViewState {
     var isSidebarVisible: Bool = false
     
     /// 侧边栏偏移量
-    var sidebarOffset: CGFloat = 0
+    var sidebarOffset: CGFloat
     
     /// 主界面的灰度值
     var mainViewGrayScale: Double = 0
@@ -36,5 +36,11 @@ struct ChatViewState {
     /// 获取当前选中的会话
     var currentSession: ChatSession? {
         chatSessions.first { $0.id == currentSessionId }
+    }
+    
+    init() {
+        // 设置侧边栏初始状态为关闭
+        self.isSidebarVisible = false
+        self.sidebarOffset = -UIScreen.main.bounds.width * 0.6 // 与ChatSidebar中的宽度保持一致
     }
 } 
