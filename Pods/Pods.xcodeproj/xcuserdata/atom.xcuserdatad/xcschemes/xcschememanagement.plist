@@ -14,6 +14,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Down.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-FlyingKxq-FlyingKxqUITests.xcscheme</key>
 		<dict>
 			<key>isShown</key>
