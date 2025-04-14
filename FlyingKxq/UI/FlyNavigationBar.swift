@@ -50,7 +50,7 @@ struct FlyNavigationBar: View {
         .padding(.horizontal, 16)
         .padding(.bottom,self.safeAreaInsets.bottom)
         .background{
-            FlyBlurView(effect: .systemChromeMaterial)
+            Color.flyBackground
         }
     }
 

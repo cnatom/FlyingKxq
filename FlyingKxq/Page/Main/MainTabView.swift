@@ -11,7 +11,7 @@ struct MainTabView: View {
     @State private var selectedTab = 1
 
     var body: some View {
-        ZStack(alignment: .bottom) {
+        VStack {
             TabView(selection: $selectedTab) {
                 HomeView()
                     .tag(0)
